@@ -26,6 +26,19 @@
 		2613488C233C802100259327 /* HWTesting */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HWTesting; sourceTree = BUILT_PRODUCTS_DIR; };
 		2613488F233C802100259327 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		26134896233C810D00259327 /* FHgraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHgraph.h; sourceTree = "<group>"; };
+		26134897233C886600259327 /* FHthreadedBST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHthreadedBST.h; sourceTree = "<group>"; };
+		26134898233C886600259327 /* Foothill_Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Foothill_Sort.h; sourceTree = "<group>"; };
+		26134899233C886600259327 /* FHhashSC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHhashSC.h; sourceTree = "<group>"; };
+		2613489B233C886600259327 /* FHavlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHavlTree.h; sourceTree = "<group>"; };
+		2613489D233C886600259327 /* FHsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHsort.h; sourceTree = "<group>"; };
+		2613489E233C886600259327 /* FHtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHtree.h; sourceTree = "<group>"; };
+		261348A0233C886700259327 /* FHsearch_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHsearch_tree.h; sourceTree = "<group>"; };
+		261348A1233C886700259327 /* READ_ME_FH_INCLUDES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = READ_ME_FH_INCLUDES.txt; sourceTree = "<group>"; };
+		261348A2233C886700259327 /* FHhashQP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHhashQP.h; sourceTree = "<group>"; };
+		261348A3233C886700259327 /* FHbinHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHbinHeap.h; sourceTree = "<group>"; };
+		261348A4233C886700259327 /* FHvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHvector.h; sourceTree = "<group>"; };
+		261348A5233C886700259327 /* FHlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHlist.h; sourceTree = "<group>"; };
+		261348A8233C886700259327 /* FHkruskal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHkruskal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,8 +71,21 @@
 		2613488E233C802100259327 /* HWTesting */ = {
 			isa = PBXGroup;
 			children = (
-				26134896233C810D00259327 /* FHgraph.h */,
 				2613488F233C802100259327 /* main.cpp */,
+				2613489B233C886600259327 /* FHavlTree.h */,
+				261348A3233C886700259327 /* FHbinHeap.h */,
+				261348A2233C886700259327 /* FHhashQP.h */,
+				26134899233C886600259327 /* FHhashSC.h */,
+				261348A8233C886700259327 /* FHkruskal.h */,
+				261348A5233C886700259327 /* FHlist.h */,
+				261348A0233C886700259327 /* FHsearch_tree.h */,
+				2613489D233C886600259327 /* FHsort.h */,
+				26134897233C886600259327 /* FHthreadedBST.h */,
+				2613489E233C886600259327 /* FHtree.h */,
+				261348A4233C886700259327 /* FHvector.h */,
+				26134898233C886600259327 /* Foothill_Sort.h */,
+				261348A1233C886700259327 /* READ_ME_FH_INCLUDES.txt */,
+				26134896233C810D00259327 /* FHgraph.h */,
 			);
 			path = HWTesting;
 			sourceTree = "<group>";
