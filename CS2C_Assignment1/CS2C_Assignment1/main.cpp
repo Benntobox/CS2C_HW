@@ -11,6 +11,17 @@
 
 using namespace std;
 
+
+class Sublist {
+    
+public:
+    bool showSublist();
+};
+
+bool showSublist() {
+    return true;
+}
+
 int main()
 {
     int TARGET = 180;
@@ -31,6 +42,9 @@ int main()
     
     
     // code provided by student
+    
+    
+    
     
     iterBest->showSublist();
     
