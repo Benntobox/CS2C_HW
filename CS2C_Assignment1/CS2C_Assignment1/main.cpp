@@ -29,7 +29,10 @@ private:
 
 Sublist Sublist::addItem(int indexOfItemToAdd) {
     Sublist newSublist = Sublist(this->originalObjects);
-    newSublist.indices = this->indices;
+    for (int i = 0; i < this->indices.size(); i++)
+    {
+        newSublist.indices.push_back(this->indices.at(i));
+    }
     newSublist.indices.push_back(indexOfItemToAdd);
     newSublist.sum = this->getSum() + originalObjects->at(indexOfItemToAdd);
     return newSublist;
