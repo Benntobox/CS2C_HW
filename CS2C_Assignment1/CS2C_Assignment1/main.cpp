@@ -70,7 +70,8 @@ int main()
     for (j = 0; j < dataSet.size(); j++)
     {
         int currElement = dataSet[j];
-        for (k = 0; k < choices.size(); k++)
+        unsigned long currChoicesSize = choices.size();
+        for (k = 0; k < currChoicesSize; k++)
         {
             if (choices[k].sublistSum() + currElement == TARGET)
             {
