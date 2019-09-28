@@ -17,33 +17,27 @@ class Sublist
 {
 private:
     vector<double> sublist;
+    double sublistSum;
 public:
-    Sublist() { sublist = {}; }
+    Sublist() { sublist = {}; sublistSum = 0; }
     bool showSublist();
-    double sublistSum();
-    Sublist operator+(int);
+    double getSublistSum() { return sublistSum; }
+    Sublist addItem(double);
 };
 
-double Sublist::sublistSum()
+Sublist Sublist::addItem(double newVal)
 {
-    double total = 0;
-    for (int i = 0; i < this->sublist.size(); i++) {
-        total += this->sublist[i];
-    }
-    return total;
+    Sublist newSublist = *this;
+    newSublist.sublist.push_back(newVal);
+    newSublist.sublistSum += newVal;
+    return newSublist;
 }
 
 bool Sublist::showSublist()
 {
-    double totalSum = this->sublistSum();
+    double totalSum = this->sublistSum;
     cout << "array[" << totalSum << "] = " << totalSum << endl;
     return true;
-}
-
-Sublist Sublist::operator+(int n)
-{
-    this->sublist.push_back(n);
-    return *this;
 }
 
 int main()
@@ -65,26 +59,28 @@ int main()
     cout << "Target time: " << TARGET << endl;
     
     choices = {};
-    Sublist emptyList = *new Sublist;
+    Sublist emptyList = Sublist();
     choices.push_back(emptyList);
+    iterBest = choices.begin();
     for (j = 0; j < dataSet.size(); j++)
     {
         int currElement = dataSet[j];
-        unsigned long currChoicesSize = choices.size();
-        for (k = 0; k < currChoicesSize; k++)
+        for (iter = choices.begin(); iter != choices.end(); iter++)
         {
-            if (choices[k].sublistSum() + currElement == TARGET)
+            if (iter->getSublistSum() + currElement == TARGET)
             {
-                choices.push_back(choices[k] + currElement);
+                Sublist newListing = iter->addItem(currElement);
+                choices.push_back(newListing);
                 foundPerfect = true;
-                // BAD CODE HERE
-                (choices[k] + currElement).showSublist();
-                // BAD CODE ABOVE
+                iterBest = iter;
                 break;
             }
-            else if (choices[k].sublistSum() + currElement <= TARGET)
+            else if (iter->getSublistSum() + currElement <= TARGET)
             {
-                choices.push_back(choices[k] + currElement);
+                choices.push_back(iter->addItem(currElement));
+                if (TARGET - iter->getSublistSum() < TARGET - iterBest->getSublistSum()) {
+                    iterBest = iter;
+                }
             }
         }
         if (foundPerfect == true)
@@ -94,7 +90,7 @@ int main()
     }
     
     
-    //iterBest->showSublist();
+    iterBest->showSublist();
     
     return 0;
 }
