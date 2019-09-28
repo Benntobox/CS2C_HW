@@ -49,7 +49,6 @@ int main()
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
     int k, j, numSets, max, masterSum;
-    bool foundPerfect = false;
     
     dataSet.push_back(20); dataSet.push_back(12); dataSet.push_back(22);
     dataSet.push_back(15); dataSet.push_back(25);
@@ -61,41 +60,31 @@ int main()
     cout << "Target time: " << TARGET << endl;
     
     choices.clear();
-    choices.push_back(Sublist());
+    choices.push_back(Sublist(&dataSet));
     iterBest = choices.begin();
     for (j = 0; j < dataSet.size(); j++)
     {
-        
-        
-        
-        
-        int currElement = j;
         for (iter = choices.begin(); iter != choices.end(); iter++)
         {
-            if (iter->getSublistSum() + currElement == TARGET)
+            if (iter->getSum() + dataSet[j] == TARGET)
             {
-                Sublist newListing = iter->addItem(currElement);
-                choices.push_back(newListing);
-                foundPerfect = true;
+                choices.push_back(iter->addItem(j));
                 iterBest = iter;
                 break;
             }
-            else if (iter->getSublistSum() + currElement <= TARGET)
+            else if (iter->getSum() + dataSet[j] < TARGET)
             {
-                choices.push_back(iter->addItem(currElement));
-                if (TARGET - iter->getSublistSum() < TARGET - iterBest->getSublistSum()) {
+                choices.push_back(iter->addItem(j));
+                if (TARGET - iter->getSum() < TARGET - iterBest->getSum())
+                {
                     iterBest = iter;
                 }
             }
         }
-        if (foundPerfect == true)
-        {
+        if (iterBest->getSum() == TARGET) {
             break;
         }
     }
-    
-    
     iterBest->showSublist();
-    
     return 0;
 }
