@@ -20,6 +20,7 @@ public:
     Sublist();
     bool showSublist();
     double sublistSum();
+    operator+(int n) { sublist.push_back(n); }
 };
 
 double Sublist::sublistSum() {
@@ -54,8 +55,16 @@ int main()
     choices.clear();
     cout << "Target time: " << TARGET << endl;
     
-    
-    // code provided by student
+    choices = {};
+    for (j = 0; j < dataSet.size(); j++) {
+        int currElement = dataSet[j];
+        for (k = 0; k < choices.size(); k++) {
+            if (choices[k].sublistSum() + currElement <= TARGET) {
+                Sublist subl = choices[k] + currElement;
+                choices.push_back(subl);
+            }
+        }
+    }
     
     
     
