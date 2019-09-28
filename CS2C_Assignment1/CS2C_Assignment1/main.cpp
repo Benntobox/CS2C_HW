@@ -14,12 +14,25 @@ using namespace std;
 
 
 class Sublist {
-    
+private:
+    vector<double> sublist;
 public:
+    Sublist();
     bool showSublist();
+    double sublistSum();
 };
 
-bool showSublist() {
+double Sublist::sublistSum() {
+    double total = 0;
+    for (int i = 0; i < this->sublist.size(); i++) {
+        total += this->sublist[i];
+    }
+    return total;
+}
+
+bool Sublist::showSublist() {
+    double totalSum = this->sublistSum();
+    cout << "array[" << totalSum << "] = " << totalSum << endl;
     return true;
 }
 
