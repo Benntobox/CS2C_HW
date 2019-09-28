@@ -15,30 +15,32 @@ using namespace std;
 
 class Sublist
 {
-private:
-    vector<double> sublist;
-    double sublistSum;
 public:
-    Sublist() { sublist = {}; sublistSum = 0; }
-    bool showSublist();
-    double getSublistSum() { return sublistSum; }
-    Sublist addItem(double);
+    Sublist(vector<int> *orig = NULL) : sum(0), originalObjects (orig) { }
+    Sublist addItem( int indexOfItemToAdd );
+    void showSublist() const;
+    int getSum() const { return sum; }
+    
+private:
+    int sum;
+    vector<int> *originalObjects;
+    vector<int> indices;
 };
 
-Sublist Sublist::addItem(double newVal)
-{
-    Sublist newSublist = *this;
-    newSublist.sublist.push_back(newVal);
-    newSublist.sublistSum += newVal;
+Sublist Sublist::addItem(int indexOfItemToAdd) {
+    Sublist newSublist = Sublist(this->originalObjects);
+    newSublist.indices = this->indices;
+    newSublist.indices.push_back(indexOfItemToAdd);
+    newSublist.sum = this->getSum() + originalObjects->at(indexOfItemToAdd);
     return newSublist;
 }
 
-bool Sublist::showSublist()
-{
-    double totalSum = this->sublistSum;
-    cout << "array[" << totalSum << "] = " << totalSum << endl;
-    return true;
+void Sublist::showSublist() const {
+    for (int i = 0; i < this->indices.size(); i++) {
+        cout << "array[" << i << "] = " << originalObjects->at(i);
+    }
 }
+
 
 int main()
 {
@@ -58,13 +60,16 @@ int main()
     choices.clear();
     cout << "Target time: " << TARGET << endl;
     
-    choices = {};
-    Sublist emptyList = Sublist();
-    choices.push_back(emptyList);
+    choices.clear();
+    choices.push_back(Sublist());
     iterBest = choices.begin();
     for (j = 0; j < dataSet.size(); j++)
     {
-        int currElement = dataSet[j];
+        
+        
+        
+        
+        int currElement = j;
         for (iter = choices.begin(); iter != choices.end(); iter++)
         {
             if (iter->getSublistSum() + currElement == TARGET)
