@@ -13,17 +13,19 @@
 using namespace std;
 
 
-class Sublist {
+class Sublist
+{
 private:
     vector<double> sublist;
 public:
-    Sublist();
+    Sublist() { sublist = {}; }
     bool showSublist();
     double sublistSum();
-    Sublist operator+(int n) { sublist.push_back(n); return *this;}
+    Sublist operator+(int);
 };
 
-double Sublist::sublistSum() {
+double Sublist::sublistSum()
+{
     double total = 0;
     for (int i = 0; i < this->sublist.size(); i++) {
         total += this->sublist[i];
@@ -31,10 +33,17 @@ double Sublist::sublistSum() {
     return total;
 }
 
-bool Sublist::showSublist() {
+bool Sublist::showSublist()
+{
     double totalSum = this->sublistSum();
     cout << "array[" << totalSum << "] = " << totalSum << endl;
     return true;
+}
+
+Sublist Sublist::operator+(int n)
+{
+    this->sublist.push_back(n);
+    return *this;
 }
 
 int main()
@@ -44,7 +53,7 @@ int main()
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
     int k, j, numSets, max, masterSum;
-    bool foundPerfect;
+    bool foundPerfect = false;
     
     dataSet.push_back(20); dataSet.push_back(12); dataSet.push_back(22);
     dataSet.push_back(15); dataSet.push_back(25);
@@ -56,26 +65,35 @@ int main()
     cout << "Target time: " << TARGET << endl;
     
     choices = {};
-    bool loopBreak = false;
-    for (j = 0; j < dataSet.size(); j++) {
+    Sublist emptyList = *new Sublist;
+    choices.push_back(emptyList);
+    for (j = 0; j < dataSet.size(); j++)
+    {
         int currElement = dataSet[j];
-        for (k = 0; k < choices.size(); k++) {
-            if (choices[k].sublistSum() + currElement == TARGET) {
+        for (k = 0; k < choices.size(); k++)
+        {
+            if (choices[k].sublistSum() + currElement == TARGET)
+            {
                 choices.push_back(choices[k] + currElement);
-                loopBreak = true;
+                foundPerfect = true;
+                // BAD CODE HERE
+                (choices[k] + currElement).showSublist();
+                // BAD CODE ABOVE
                 break;
             }
-            else if (choices[k].sublistSum() + currElement == TARGET) {
+            else if (choices[k].sublistSum() + currElement <= TARGET)
+            {
                 choices.push_back(choices[k] + currElement);
             }
         }
-        if (loopBreak == true) {
+        if (foundPerfect == true)
+        {
             break;
         }
     }
     
-
-    iterBest->showSublist();
+    
+    //iterBest->showSublist();
     
     return 0;
 }
