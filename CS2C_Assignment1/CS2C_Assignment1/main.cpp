@@ -6,12 +6,14 @@
 //  Copyright © 2019 Benjamin Boyle. All rights reserved.
 //
 
+// CS 2C Assignment #1 Part A - int Version
 #include <iostream>
 #include <vector>
 #include <time.h>
 
 using namespace std;
 
+// ---------------------------- Sublist Prototype ----------------------------
 
 class Sublist
 {
@@ -27,6 +29,8 @@ private:
     vector<int> indices;
 };
 
+// ------------------------ Sublist Method Definitions ------------------------
+
 Sublist Sublist::addItem(int indexOfItemToAdd) {
     Sublist newSublist = Sublist(this->originalObjects);
     for (int i = 0; i < this->indices.size(); i++)
@@ -40,11 +44,18 @@ Sublist Sublist::addItem(int indexOfItemToAdd) {
 
 void Sublist::showSublist() const {
     for (int i = 0; i < this->indices.size(); i++) {
-        cout << "array[" << i << "] = " << originalObjects->at(i) << ", ";
+        int indexOfIndices = this->indices[i];
+        cout << "array[" << indexOfIndices << "] = " << originalObjects->at(indexOfIndices);
+        if (i < this->indices.size() - 1)
+        {
+            cout  << ", ";
+        }
     }
+    cout << endl;
 }
 
-// Tests to see if sum of values in master list can reach target, returns true if viable and false if not
+// ------------------------- Global Scope Definitions --------------------------
+
 bool isTargetViable(vector<int> dataSet, int TARGET)
 {
     int i, total = 0;
@@ -59,6 +70,7 @@ bool isTargetViable(vector<int> dataSet, int TARGET)
     return true;
 }
 
+// ------------------------------------ Main ------------------------------------
 
 int main()
 {
@@ -66,7 +78,7 @@ int main()
     vector<int> dataSet;
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
-    int j;
+    bool foundPerfect = false;
     
     dataSet.push_back(20); dataSet.push_back(12); dataSet.push_back(22);
     dataSet.push_back(15); dataSet.push_back(25);
@@ -86,7 +98,7 @@ int main()
     choices.clear();
     choices.push_back(Sublist(&dataSet));
     iterBest = choices.begin();
-    for (j = 0; j < dataSet.size(); j++)
+    for (int j = 0; j < dataSet.size(); j++)
     {
         vector<Sublist> choicesCopyForIterating = choices;
         for (iter = choicesCopyForIterating.begin(); iter != choicesCopyForIterating.end(); iter++)
@@ -95,6 +107,7 @@ int main()
             {
                 choices.push_back(iter->addItem(j));
                 iterBest = choices.end()-1;
+                foundPerfect = true;
                 break;
             }
             else if (iter->getSum() + dataSet[j] < TARGET)
@@ -106,7 +119,7 @@ int main()
                 }
             }
         }
-        if (iterBest->getSum() == TARGET) {
+        if (foundPerfect) {
             break;
         }
     }
