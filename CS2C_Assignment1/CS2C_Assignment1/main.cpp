@@ -44,6 +44,21 @@ void Sublist::showSublist() const {
     }
 }
 
+// Tests to see if sum of values in master list can reach target, returns true if viable and false if not
+bool isTargetViable(vector<int> dataSet, int TARGET)
+{
+    int i, total = 0;
+    for (i = 0; i < dataSet.size(); i++)
+    {
+        total += dataSet[i];
+    }
+    if (total < TARGET)
+    {
+        return false;
+    }
+    return true;
+}
+
 
 int main()
 {
@@ -51,7 +66,7 @@ int main()
     vector<int> dataSet;
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
-    int k, j, numSets, max, masterSum;
+    int j;
     
     dataSet.push_back(20); dataSet.push_back(12); dataSet.push_back(22);
     dataSet.push_back(15); dataSet.push_back(25);
@@ -62,12 +77,7 @@ int main()
     choices.clear();
     cout << "Target time: " << TARGET << endl;
     
-    max = 0;
-    for (k = 0; k < dataSet.size(); k++)
-    {
-        max += dataSet[k];
-    }
-    if (max < TARGET)
+    if (!isTargetViable(dataSet, TARGET))
     {
         cout << "Target too high, cannot find solution" << endl;
         return 0;
