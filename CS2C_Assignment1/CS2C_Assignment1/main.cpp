@@ -67,7 +67,8 @@ int main()
     iterBest = choices.begin();
     for (j = 0; j < dataSet.size(); j++)
     {
-        for (iter = choices.begin(); iter != choices.end(); iter++)
+        vector<Sublist> choicesCopyForIterating = choices;
+        for (iter = choicesCopyForIterating.begin(); iter != choicesCopyForIterating.end(); iter++)
         {
             if (iter->getSum() + dataSet[j] == TARGET)
             {
