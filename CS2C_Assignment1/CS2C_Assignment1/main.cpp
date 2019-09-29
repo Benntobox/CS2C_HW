@@ -40,7 +40,7 @@ Sublist Sublist::addItem(int indexOfItemToAdd) {
 
 void Sublist::showSublist() const {
     for (int i = 0; i < this->indices.size(); i++) {
-        cout << "array[" << i << "] = " << originalObjects->at(i);
+        cout << "array[" << i << "] = " << originalObjects->at(i) << ", ";
     }
 }
 
@@ -62,6 +62,17 @@ int main()
     choices.clear();
     cout << "Target time: " << TARGET << endl;
     
+    max = 0;
+    for (k = 0; k < dataSet.size(); k++)
+    {
+        max += dataSet[k];
+    }
+    if (max < TARGET)
+    {
+        cout << "Target too high, cannot find solution" << endl;
+        return 0;
+    }
+    
     choices.clear();
     choices.push_back(Sublist(&dataSet));
     iterBest = choices.begin();
@@ -74,7 +85,6 @@ int main()
             {
                 choices.push_back(iter->addItem(j));
                 iterBest = choices.end()-1;
-                iterBest->showSublist();
                 break;
             }
             else if (iter->getSum() + dataSet[j] < TARGET)
@@ -83,7 +93,6 @@ int main()
                 if (TARGET - (choices.end()-1)->getSum() < TARGET - iterBest->getSum())
                 {
                     iterBest = choices.end()-1;
-                    iterBest->showSublist();
                 }
             }
         }
@@ -91,6 +100,8 @@ int main()
             break;
         }
     }
+    cout << "Sublist ------------------------" << endl;
+    cout << "sum: " << iterBest->getSum() << endl;
     iterBest->showSublist();
     return 0;
 }
