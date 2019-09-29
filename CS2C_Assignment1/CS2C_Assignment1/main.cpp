@@ -73,15 +73,17 @@ int main()
             if (iter->getSum() + dataSet[j] == TARGET)
             {
                 choices.push_back(iter->addItem(j));
-                iterBest = iter;
+                iterBest = choices.end()-1;
+                iterBest->showSublist();
                 break;
             }
             else if (iter->getSum() + dataSet[j] < TARGET)
             {
                 choices.push_back(iter->addItem(j));
-                if (TARGET - iter->getSum() < TARGET - iterBest->getSum())
+                if (TARGET - (choices.end()-1)->getSum() < TARGET - iterBest->getSum())
                 {
-                    iterBest = iter;
+                    iterBest = choices.end()-1;
+                    iterBest->showSublist();
                 }
             }
         }
