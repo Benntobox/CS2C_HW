@@ -73,7 +73,7 @@ bool isTargetViable(vector<int> dataSet, int TARGET)
 
 int main()
 {
-    int TARGET = 21;
+    int TARGET = 16;
     vector<int> dataSet;
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
@@ -112,12 +112,6 @@ int main()
             else if (iter->getSum() + dataSet[j] < TARGET)
             {
                 choices.push_back(iter->addItem(j));
-                /*
-                if (TARGET - (choices.end()-1)->getSum() < TARGET - iterBest->getSum())
-                {
-                    iterBest = choices.end()-1;
-                }
-                */
             }
         }
         if (foundPerfect)
@@ -125,7 +119,6 @@ int main()
             break;
         }
     }
-    
     if (!foundPerfect)
     {
         for (iter = choices.begin(); iter != choices.end(); iter++)
@@ -136,7 +129,6 @@ int main()
             }
         }
     }
-    
     cout << "Sublist ------------------------" << endl;
     cout << "sum: " << iterBest->getSum() << endl;
     iterBest->showSublist();
