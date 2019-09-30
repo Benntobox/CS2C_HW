@@ -52,7 +52,33 @@ void Sublist::showSublist() const {
     cout << endl;
 }
 
+// ------------------------- Global Scope Definitions --------------------------
 
+int operator+(int value, iTunesEntry entry)
+{
+    return entry.getTime() + value;
+}
+
+int operator+(iTunesEntry entry, int value)
+{
+    return entry.getTime() + value;
+}
+
+bool isTargetViable(vector<iTunesEntry> dataSet, int TARGET)
+{
+    int i, total = 0;
+    for (i = 0; i < dataSet.size(); i++)
+    {
+        total += dataSet[i];
+    }
+    if (total < TARGET)
+    {
+        return false;
+    }
+    return true;
+}
+
+// ------------------------------------ Main ------------------------------------
 
 int main()
 {
@@ -81,11 +107,54 @@ int main()
     for (int k = 0; k < array_size; k++)
         dataSet.push_back(tunes_input[k]);
     
+    choices.clear();
     cout << "Target time: " << TARGET << endl;
     
-    // code provided by student
+    if (!isTargetViable(dataSet, TARGET))
+    {
+        cout << "Target too high, cannot find solution" << endl;
+        return 0;
+    }
     
+    choices.clear();
+    choices.push_back(Sublist(&dataSet));
+    iterBest = choices.begin();
+    for (int j = 0; j < dataSet.size(); j++)
+    {
+        vector<Sublist> choicesCopyForIterating = choices;
+        for (iter = choicesCopyForIterating.begin(); iter != choicesCopyForIterating.end(); iter++)
+        {
+            if (iter->getSum() + dataSet[j] == TARGET)
+            {
+                choices.push_back(iter->addItem(j));
+                iterBest = choices.end()-1;
+                foundPerfect = true;
+                break;
+            }
+            else if (iter->getSum() + dataSet[j] < TARGET)
+            {
+                choices.push_back(iter->addItem(j));
+            }
+        }
+        if (foundPerfect)
+        {
+            break;
+        }
+    }
+    if (!foundPerfect)
+    {
+        for (iter = choices.begin(); iter != choices.end(); iter++)
+        {
+            if (TARGET - iter->getSum() < TARGET - iterBest->getSum())
+            {
+                iterBest = iter;
+            }
+        }
+    }
+    cout << "Sublist ------------------------" << endl;
+    cout << "sum: " << iterBest->getSum() << endl;
     iterBest->showSublist();
+    return 0;
     
     // how we determine the time elapsed -------------------
     stopTime = clock();
