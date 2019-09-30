@@ -1,4 +1,3 @@
-//
 //  main.cpp
 //  CS2C_Assignment1
 //
@@ -74,7 +73,7 @@ bool isTargetViable(vector<int> dataSet, int TARGET)
 
 int main()
 {
-    int TARGET = 180;
+    int TARGET = 15;
     vector<int> dataSet;
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
