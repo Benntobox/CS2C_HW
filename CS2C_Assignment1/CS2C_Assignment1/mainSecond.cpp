@@ -16,13 +16,13 @@ using namespace std;
 class Sublist
 {
 public:
-    Sublist(vector<iTunesEntry> *orig = NULL) : sum(0), originalObjects (orig) { }
+    Sublist(vector<iTunesEntry> *orig = NULL) : time(0), originalObjects (orig) { }
     Sublist addItem( int indexOfItemToAdd );
     void showSublist() const;
-    int getSum() const { return sum; }
+    int getTime() const { return time; }
     
 private:
-    int sum;
+    int time;
     vector<iTunesEntry> *originalObjects;
     vector<int> indices;
 };
@@ -36,14 +36,16 @@ Sublist Sublist::addItem(int indexOfItemToAdd) {
         newSublist.indices.push_back(this->indices.at(i));
     }
     newSublist.indices.push_back(indexOfItemToAdd);
-    newSublist.sum = this->getSum() + originalObjects->at(indexOfItemToAdd);
+    newSublist.time = this->getTime() + originalObjects->at(indexOfItemToAdd).getTime();
     return newSublist;
 }
 
 void Sublist::showSublist() const {
     for (int i = 0; i < this->indices.size(); i++) {
         int indexOfIndices = this->indices[i];
-        cout << "array[" << indexOfIndices << "] = " << originalObjects->at(indexOfIndices);
+        iTunesEntry currentSong = originalObjects->at(indexOfIndices);
+        cout << "array[" << indexOfIndices << "] = " << currentSong.getTitle() << " by " <<
+                            currentSong.getArtist() << "(" << currentSong.getArtist() << ") ";
         if (i < this->indices.size() - 1)
         {
             cout  << ", ";
@@ -69,7 +71,7 @@ bool isTargetViable(vector<iTunesEntry> dataSet, int TARGET)
     int i, total = 0;
     for (i = 0; i < dataSet.size(); i++)
     {
-        total += dataSet[i];
+        total += dataSet[i].getTime();
     }
     if (total < TARGET)
     {
@@ -124,14 +126,14 @@ int main()
         vector<Sublist> choicesCopyForIterating = choices;
         for (iter = choicesCopyForIterating.begin(); iter != choicesCopyForIterating.end(); iter++)
         {
-            if (iter->getSum() + dataSet[j] == TARGET)
+            if (iter->getTime() + dataSet[j] == TARGET)
             {
                 choices.push_back(iter->addItem(j));
                 iterBest = choices.end()-1;
                 foundPerfect = true;
                 break;
             }
-            else if (iter->getSum() + dataSet[j] < TARGET)
+            else if (iter->getTime() + dataSet[j] < TARGET)
             {
                 choices.push_back(iter->addItem(j));
             }
@@ -145,14 +147,14 @@ int main()
     {
         for (iter = choices.begin(); iter != choices.end(); iter++)
         {
-            if (TARGET - iter->getSum() < TARGET - iterBest->getSum())
+            if (TARGET - iter->getTime() < TARGET - iterBest->getTime())
             {
                 iterBest = iter;
             }
         }
     }
     cout << "Sublist ------------------------" << endl;
-    cout << "sum: " << iterBest->getSum() << endl;
+    cout << "sum: " << iterBest->getTime() << endl;
     iterBest->showSublist();
     return 0;
     
