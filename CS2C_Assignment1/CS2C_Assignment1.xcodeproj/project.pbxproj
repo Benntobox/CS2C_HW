@@ -30,7 +30,6 @@
 		261348C0233DD5F100259327 /* iTunes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iTunes.h; path = ../../CS_2C_Files/iTunes.h; sourceTree = "<group>"; };
 		261348C1233DD5F100259327 /* iTunes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iTunes.cpp; path = ../../CS_2C_Files/iTunes.cpp; sourceTree = "<group>"; };
 		26D9548C2341CB4300DB0345 /* mainSecond.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mainSecond.cpp; sourceTree = "<group>"; };
-		26D954902343065E00DB0345 /* itunes_file.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = itunes_file.txt; path = ../../CS_2C_Files/itunes_file.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +62,6 @@
 		261348B8233DD50100259327 /* CS2C_Assignment1 */ = {
 			isa = PBXGroup;
 			children = (
-				26D954902343065E00DB0345 /* itunes_file.txt */,
 				261348C1233DD5F100259327 /* iTunes.cpp */,
 				261348C0233DD5F100259327 /* iTunes.h */,
 				261348B9233DD50100259327 /* main.cpp */,
