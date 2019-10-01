@@ -44,13 +44,17 @@ Sublist Sublist::addItem(int indexOfItemToAdd) {
 
 void Sublist::showSublist() const {
     for (int i = 0; i < this->indices.size(); i++) {
-        int indexOfIndices = this->indices[i];
-        iTunesEntry currentSong = originalObjects->at(indexOfIndices);
-        cout << "array[" << indexOfIndices << "] = " << currentSong.getTitle() << " by " <<
-                            currentSong.getArtist() << "(" << currentSong.getArtist() << ") ";
+       int indexOfIndices = this->indices[i];
+       iTunesEntry currentSong = originalObjects->at(indexOfIndices);
+       string currTitle = currentSong.getTitle();
+       currTitle.erase(remove(currTitle.begin(), currTitle.end(), '\r'), currTitle.end());
+       cout << "array[" << indexOfIndices << "] = " << currTitle;
+       string currArtist = currentSong.getArtist();
+       currArtist.erase(remove(currArtist.begin(), currArtist.end(), '\r'), currArtist.end());
+       cout << " by " << currArtist << "(" << currentSong.getTime() << ") ";
         if (i < this->indices.size() - 1)
         {
-            cout  << ", ";
+            cout  << ",  ";
         }
     }
     cout << endl;
@@ -156,8 +160,8 @@ int main()
         }
     }
     cout << "Sublist ------------------------" << endl;
-    cout << "sum: " << iterBest->getTime() << endl;
-    //iterBest->showSublist();
+    cout << "  sum: " << iterBest->getTime() << endl << "  ";
+    iterBest->showSublist();
     
     // how we determine the time elapsed -------------------
     stopTime = clock();
