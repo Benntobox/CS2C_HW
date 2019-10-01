@@ -8,6 +8,8 @@
 
 #include "iTunes.h"
 #include <time.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -88,8 +90,8 @@ int main()
     vector<iTunesEntry> dataSet;
     vector<Sublist> choices;
     vector<Sublist>::iterator iter, iterBest;
-    int k, j, numSets, max, array_size, masterSum;
-    bool foundPerfect;
+    int array_size;
+    bool foundPerfect = false;
     
     // read the data
     iTunesEntryReader tunes_input("itunes_file.txt");
@@ -155,8 +157,7 @@ int main()
     }
     cout << "Sublist ------------------------" << endl;
     cout << "sum: " << iterBest->getTime() << endl;
-    iterBest->showSublist();
-    return 0;
+    //iterBest->showSublist();
     
     // how we determine the time elapsed -------------------
     stopTime = clock();
