@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26D9549F2348434000DB0345 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D9549E2348434000DB0345 /* main.cpp */; };
-		26D954A62348439600DB0345 /* FHsparseMat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D954A52348439600DB0345 /* FHsparseMat.cpp */; };
+		26D954A62348439600DB0345 /* FHsparseMat.h in Sources */ = {isa = PBXBuildFile; fileRef = 26D954A52348439600DB0345 /* FHsparseMat.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,7 +26,7 @@
 /* Begin PBXFileReference section */
 		26D9549B2348434000DB0345 /* CS2C_Assignment2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS2C_Assignment2; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D9549E2348434000DB0345 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		26D954A52348439600DB0345 /* FHsparseMat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FHsparseMat.cpp; sourceTree = "<group>"; };
+		26D954A52348439600DB0345 /* FHsparseMat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHsparseMat.h; sourceTree = "<group>"; };
 		26D954A7234843D400DB0345 /* FHlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHlist.h; path = ../../CS_2C_Files/FHlist.h; sourceTree = "<group>"; };
 		26D954A8234843E800DB0345 /* FHvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHvector.h; path = ../../CS_2C_Files/FHvector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,7 +64,7 @@
 				26D954A8234843E800DB0345 /* FHvector.h */,
 				26D954A7234843D400DB0345 /* FHlist.h */,
 				26D9549E2348434000DB0345 /* main.cpp */,
-				26D954A52348439600DB0345 /* FHsparseMat.cpp */,
+				26D954A52348439600DB0345 /* FHsparseMat.h */,
 			);
 			path = CS2C_Assignment2;
 			sourceTree = "<group>";
@@ -126,7 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26D954A62348439600DB0345 /* FHsparseMat.cpp in Sources */,
+				26D954A62348439600DB0345 /* FHsparseMat.h in Sources */,
 				26D9549F2348434000DB0345 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

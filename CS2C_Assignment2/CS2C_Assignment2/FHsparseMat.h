@@ -6,6 +6,9 @@
 //  Copyright © 2019 Benjamin Boyle. All rights reserved.
 //
 
+#ifndef FHsparseMat
+#define FHsparseMat
+
 #include <stdio.h>
 #include "FHlist.h"
 #include "FHvector.h"
@@ -31,3 +34,5 @@ class SparseMatrix
 {
 
 };
+
+#endif
