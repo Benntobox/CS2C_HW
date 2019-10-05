@@ -29,16 +29,45 @@ public:
    const Object & operator=( const Object &x ) { return (data = x);}
 };
 
-template<class Node>
-class SparseMatrix
+template<class Object>
+class SparseMat
 {
+protected:
+   typedef FHlist< MatNode<Object> > MatRow;
+   typedef FHvector<MatRow> MasterCol;
+
+   MasterCol rows;
+   Object defaultVal;
+   int rowSize, colSize;
 public:
    SparseMat( int r, int c, const Object & defaultVal);
    const Object & get(int r, int c) const;
    bool set(int r, int c, const Object &x);
    void clear() ;
    void showSubSquare(int start, int size);
-
 };
+
+template<class Object>
+SparseMat<Object>::SparseMat(int r, int c, const Object & defaultVal)
+{
+   rowSize = r;
+   colSize = c;
+   this->defaultVal = defaultVal;
+   for (int k = 0; k < r; k++)
+   {
+      FHlist<MatNode<Object>> newRow = FHlist<MatNode<Object>>();
+      rows.push_back(newRow);
+   }
+}
+
+template<class Object>
+const Object& SparseMat<Object>::get(int r, int c) const
+{
+   FHlist<Object> currRow = rows.at(r);
+   class FHlist<Object>::iterator iter;
+
+   for(iter = currRow.begin(); iter != currRow.end();
+   
+}
 
 #endif

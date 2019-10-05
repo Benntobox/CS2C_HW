@@ -16,7 +16,7 @@ typedef SparseMat<float> SpMat;
 // --------------- main ---------------
 int main()
 {
-   SpMat mat(MAT_SIZE, MAT_SIZE, 0); // 100000 x 100000 filled with 0
+/*   SpMat mat(MAT_SIZE, MAT_SIZE, 0); // 100000 x 100000 filled with 0
 
    // test mutators
    mat.set(2, 5, 10);
@@ -46,4 +46,5 @@ int main()
 
    // show bottom right 15x15
    mat.showSubSquare(MAT_SIZE - 15, 15);
+ */
 }
