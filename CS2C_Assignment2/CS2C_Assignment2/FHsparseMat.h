@@ -79,6 +79,10 @@ const Object& SparseMat<Object>::get(int r, int c) const
 template<class Object>
 bool SparseMat<Object>::set(int r, int c, const Object &x)
 {
+   if (r >= rowSize || r < 0 || c >= colSize || c < 0)
+   {
+      return false;
+   }
    FHlist<MatNode<Object>> currRow = rows.at(r);
    class FHlist<MatNode<Object>>::iterator iter;
    class FHlist<MatNode<Object>>::iterator currRowEnd = currRow.end();
@@ -109,6 +113,21 @@ void SparseMat<Object>::clear()
    {
       rows.at(k).clear();
    }
+}
+
+template<class Object>
+void SparseMat<Object>::showSubSquare(int start, int size)
+{
+   int row, col;
+   for(row = start; row < start+size; row++)
+   {
+      for (col = start; col < start+size; col++)
+      {
+         cout << this->get(row, col) << " ";
+      }
+      cout << endl;
+   }
+   cout << endl;
 }
 
 #endif
