@@ -6,7 +6,7 @@
 //
 
 // CS 2C Assignment #1 Part A - int Version
-/*
+
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -135,4 +135,4 @@ int main()
    iterBest->showSublist();
    return 0;
 }
- */
+

@@ -16,13 +16,17 @@
 // new record to be read and returns true if found
 bool iTunesEntryReader::isDataLine(string line)
 {
-   string s;
-   if (line.length() < 1)
-      return false;  
-   if (line == "#")
-      return true;
-   return false;     
- }
+    string s;
+    if (line.length() < 1)
+        return false;
+    if (!line.empty() && line[line.size()-1]== '\r')
+    {
+        line.erase(line.size()-1);
+        if (line == "#")
+            return true;
+    }
+    return false;
+}
 
 iTunesEntry &iTunesEntryReader::operator[](int k)
 {
@@ -92,6 +96,9 @@ iTunesEntryReader::iTunesEntryReader(string fileName)
    if (!infile)
    {
       fileOpenError = true;
+       //MY OWN CODE IS HERE
+       cout << "It was a infile issue";
+       //MY OWN CODE IS HERE
       return;
    }
 
