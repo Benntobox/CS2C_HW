@@ -32,6 +32,12 @@ public:
 template<class Node>
 class SparseMatrix
 {
+public:
+   SparseMat( int r, int c, const Object & defaultVal);
+   const Object & get(int r, int c) const;
+   bool set(int r, int c, const Object &x);
+   void clear() ;
+   void showSubSquare(int start, int size);
 
 };
 
