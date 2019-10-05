@@ -63,11 +63,52 @@ SparseMat<Object>::SparseMat(int r, int c, const Object & defaultVal)
 template<class Object>
 const Object& SparseMat<Object>::get(int r, int c) const
 {
-   FHlist<Object> currRow = rows.at(r);
-   class FHlist<Object>::iterator iter;
+   FHlist<MatNode<Object>> currRow = rows.at(r);
+   class FHlist<MatNode<Object>>::iterator iter;
+   class FHlist<MatNode<Object>>::iterator currRowEnd = currRow.end();
+   for(iter = currRow.begin(); iter != currRowEnd; iter++)
+   {
+      if ((*iter).getCol() == c)
+      {
+         return (*iter).data;
+      }
+   }
+   return defaultVal;
+}
 
-   for(iter = currRow.begin(); iter != currRow.end();
-   
+template<class Object>
+bool SparseMat<Object>::set(int r, int c, const Object &x)
+{
+   FHlist<MatNode<Object>> currRow = rows.at(r);
+   class FHlist<MatNode<Object>>::iterator iter;
+   class FHlist<MatNode<Object>>::iterator currRowEnd = currRow.end();
+   for(iter = currRow.begin(); iter != currRowEnd; iter++)
+   {
+      if ((*iter).getCol() == c)
+      {
+         (*iter) = x;
+         return true;
+      }
+   }
+   MatNode<Object> newNode = MatNode<Object>(c, x);
+   for(iter = currRow.begin(); iter != currRowEnd; iter++)
+   {
+      if ((*iter).getCol() > c || iter++ == currRowEnd)
+      {
+         currRow.insert(iter, newNode);
+         return true;
+      }
+   }
+   return false;
+}
+
+template<class Object>
+void SparseMat<Object>::clear()
+{
+   for(int k = 0; k < rowSize; k++)
+   {
+      rows.at(k).clear();
+   }
 }
 
 #endif
