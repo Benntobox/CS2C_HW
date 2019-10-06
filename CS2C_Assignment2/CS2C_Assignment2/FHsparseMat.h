@@ -83,7 +83,6 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
    {
       return false;
    }
-   //MatNode<Object> newNode = MatNode<Object>(c, x);
    FHlist<MatNode<Object>> currRow = rows.at(r);
    FHlist<MatNode<Object>>* currRowPointer = &rows.at(r);
    if (currRowPointer->empty())
@@ -130,7 +129,7 @@ void SparseMat<Object>::showSubSquare(int start, int size)
    {
       for (col = start; col < start+size; col++)
       {
-         cout << this->get(row, col) << " ";
+         cout << this->get(row, col) << "  ";
       }
       cout << endl;
    }
