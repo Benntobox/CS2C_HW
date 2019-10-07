@@ -85,9 +85,13 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
       return false;
    }
    FHlist<MatNode<Object>>* currRow = &rows.at(r);
+   cout << "row size: " << currRow->size() << endl;
    if (currRow->empty())
    {
-      currRow->push_back(MatNode<Object>(c, x));
+      if (x != defaultVal)
+      {
+         currRow->push_back(MatNode<Object>(c, x));
+      }
       return true;
    }
    currRowEnd = currRow->end();
@@ -95,14 +99,26 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
    {
       if ((*iter).getCol() == c)
       {
-         (*iter) = x;
+         if (x == defaultVal)
+         {
+            currRow->erase(iter);
+         }
+         else
+         {
+            (*iter) = x;
+         }
          return true;
       }
-      if ((*iter).getCol() > c || iter++ == currRowEnd)
+      if ((*iter).getCol() > c)
       {
-         currRow->insert(iter, MatNode<Object>(c, x));
+         if (x != defaultVal)
+         {
+            currRow->insert(iter, x);
+         }
          return true;
       }
+      currRow->push_back(MatNode<Object>(c, x));
+      return true;
    }
    return false;
 }

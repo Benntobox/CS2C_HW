@@ -21,6 +21,11 @@ int main()
    // test mutators
    mat.set(2, 5, 10);
    mat.set(2, 5, 35);   // should overwrite the 10
+   mat.set(2, 3, 15);
+   mat.set(2, 1, 22);
+   mat.set(2, 8, 9);
+   mat.set(2, 4, 5);
+   mat.set(2, 0, 3);
    mat.set(3, 9, 21);
    mat.set(MAT_SIZE, 1, 5);  // should fail silently
    mat.set(9, 9, mat.get(3, 9));  // should copy the 21 here
@@ -45,6 +50,6 @@ int main()
    mat.showSubSquare(0, 15);
 
    // show bottom right 15x15
-   mat.showSubSquare(MAT_SIZE - 15, 15);
+//   mat.showSubSquare(MAT_SIZE - 15, 15);
 
 }
