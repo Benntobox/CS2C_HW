@@ -64,14 +64,11 @@ template<class Object>
 const Object& SparseMat<Object>::get(int r, int c) const
 {
    FHlist<MatNode<Object>> currRow = rows.at(r);
-   class FHlist<MatNode<Object>>::iterator iter, currRowEnd;
+   class FHlist<MatNode<Object>>::const_iterator iter, currRowEnd;
    currRowEnd = currRow.end();
    for(iter = currRow.begin(); iter != currRowEnd; iter++)
    {
-      if ((*iter).getCol() == c)
-      {
-         return (*iter).data;
-      }
+      if ((*iter).getCol() == c) { return (*iter).data; }
    }
    return defaultVal;
 }
@@ -80,34 +77,20 @@ template<class Object>
 bool SparseMat<Object>::set(int r, int c, const Object &x)
 {
    if (r >= rowSize || r < 0 || c >= colSize || c < 0) { return false; }
-   
    class FHlist<MatNode<Object>>::iterator iter, currRowEnd;
    FHlist<MatNode<Object>>* currRow = &rows.at(r);
    currRowEnd = currRow->end();
-
    for (iter = currRow->begin(); iter != currRowEnd; iter++)
    {
       if ((*iter).getCol() == c)
       {
-         if (x == defaultVal)
-         {
-            currRow->erase(iter);
-         }
-         else
-         {
-            (*iter) = x;
-         }
+         if (x == defaultVal) { currRow->erase(iter); }
+         else { (*iter) = x; }
          return true;
       }
-      if ((*iter).getCol() > c)
-      {
-         break;
-      }
+      else if ((*iter).getCol() > c) { break; }
    }
-   if (x != defaultVal)
-   {
-      currRow->insert(iter, MatNode<Object>(c, x));
-   }
+   if (x != defaultVal) { currRow->insert(iter, MatNode<Object>(c, x)); }
    return true;
 }
 
