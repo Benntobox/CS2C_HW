@@ -49,6 +49,6 @@ int main()
    mat.showSubSquare(0, 15);
 
    // show bottom right 15x15
-//   mat.showSubSquare(MAT_SIZE - 15, 15);
+   mat.showSubSquare(MAT_SIZE - 15, 15);
 
 }

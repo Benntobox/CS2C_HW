@@ -5,10 +5,6 @@
 //  Created by Benjamin Boyle on 10/4/19.
 //  Copyright © 2019 Benjamin Boyle. All rights reserved.
 //
-
-#ifndef FHsparseMat
-#define FHsparseMat
-
 #include <stdio.h>
 #include "FHlist.h"
 #include "FHvector.h"
@@ -33,6 +29,7 @@ template<class Object>
 class SparseMat
 {
 protected:
+   const int MINIMUM_SIZE = 1;
    typedef FHlist< MatNode<Object> > MatRow;
    typedef FHvector<MatRow> MasterCol;
 
@@ -45,24 +42,26 @@ public:
    bool set(int r, int c, const Object &x);
    void clear() ;
    void showSubSquare(int start, int size);
+
+   class BoundsViolationError {};
 };
 
 template<class Object>
 SparseMat<Object>::SparseMat(int r, int c, const Object & defaultVal)
 {
-   rowSize = r;
-   colSize = c;
+   r >= MINIMUM_SIZE? rowSize = r : rowSize = MINIMUM_SIZE;
+   c >= MINIMUM_SIZE? colSize = c : colSize = MINIMUM_SIZE;
    this->defaultVal = defaultVal;
    for (int k = 0; k < r; k++)
    {
-      FHlist<MatNode<Object>> newRow = FHlist<MatNode<Object>>();
-      rows.push_back(newRow);
+      rows.push_back(MatRow());
    }
 }
 
 template<class Object>
 const Object& SparseMat<Object>::get(int r, int c) const
 {
+   if (r >= rowSize || r < 0 || c >= colSize || c < 0) { throw BoundsViolationError(); }
    FHlist<MatNode<Object>> currRow = rows.at(r);
    class FHlist<MatNode<Object>>::const_iterator iter, currRowEnd;
    currRowEnd = currRow.end();
@@ -90,7 +89,11 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
       }
       else if ((*iter).getCol() > c) { break; }
    }
-   if (x != defaultVal) { currRow->insert(iter, MatNode<Object>(c, x)); }
+   if (x != defaultVal)
+   {
+      currRow->insert(iter, MatNode<Object>(c, x));
+
+   }
    return true;
 }
 
@@ -111,11 +114,12 @@ void SparseMat<Object>::showSubSquare(int start, int size)
    {
       for (col = start; col < start+size; col++)
       {
-         cout << this->get(row, col) << "  ";
+         int matValue = this->get(row, col);
+         if (to_string(matValue).size() == 1) { cout << " "; }
+         cout << matValue << " ";
       }
       cout << endl;
    }
    cout << endl;
 }
 
-#endif
