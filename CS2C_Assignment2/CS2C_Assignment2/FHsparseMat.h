@@ -109,7 +109,7 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
          }
          return true;
       }
-      if ((*iter).getCol() > c)
+      if ((*iter).getCol() > c || iter.next() == currRowEnd)
       {
          if (x != defaultVal)
          {
@@ -117,8 +117,6 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
          }
          return true;
       }
-      currRow->push_back(MatNode<Object>(c, x));
-      return true;
    }
    return false;
 }
