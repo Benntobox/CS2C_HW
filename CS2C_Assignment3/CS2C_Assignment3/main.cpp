@@ -17,16 +17,23 @@ DynMat mDyn, nDyn, ansDyn;
 
 void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int size)
 {
-
+   
 }
 
 void matShowDyn( const DynMat & matA, int start, int size)
 {
-   int end = start + size;
-   for(int k = start; k < end; k++)
+   int k, j, end;
+   end = start + size;
+   for(k = start; k < end; k++)
    {
-
+      const float* row = matA[k];
+      for(j = start; j < end; j++)
+      {
+         cout << row[j] << " ";
+      }
+      cout << endl;
    }
+   cout << endl;
 }
 
 int main()
