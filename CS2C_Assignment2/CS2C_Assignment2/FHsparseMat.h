@@ -62,8 +62,8 @@ template<class Object>
 const Object& SparseMat<Object>::get(int r, int c) const
 {
    if (r >= rowSize || r < 0 || c >= colSize || c < 0) { throw BoundsViolationError(); }
-   FHlist<MatNode<Object>> currRow = rows.at(r);
-   class FHlist<MatNode<Object>>::const_iterator iter, currRowEnd;
+   MatRow currRow = rows.at(r);
+   class MatRow::const_iterator iter, currRowEnd;
    currRowEnd = currRow.end();
    for(iter = currRow.begin(); iter != currRowEnd; iter++)
    {
@@ -76,8 +76,8 @@ template<class Object>
 bool SparseMat<Object>::set(int r, int c, const Object &x)
 {
    if (r >= rowSize || r < 0 || c >= colSize || c < 0) { return false; }
-   class FHlist<MatNode<Object>>::iterator iter, currRowEnd;
-   FHlist<MatNode<Object>>* currRow = &rows.at(r);
+   class MatRow::iterator iter, currRowEnd;
+   MatRow* currRow = &rows.at(r);
    currRowEnd = currRow->end();
    for (iter = currRow->begin(); iter != currRowEnd; iter++)
    {
@@ -92,7 +92,6 @@ bool SparseMat<Object>::set(int r, int c, const Object &x)
    if (x != defaultVal)
    {
       currRow->insert(iter, MatNode<Object>(c, x));
-
    }
    return true;
 }
