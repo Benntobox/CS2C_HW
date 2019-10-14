@@ -7,13 +7,27 @@
 //
 
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
-const int MAT_SIZE = 10000;
+const int MAT_SIZE = 100;
 
 typedef float* DynMat[MAT_SIZE];
 
 DynMat mDyn, nDyn, ansDyn;
+
+float getMultValue(const DynMat & matA,  const DynMat & matB, int startColA, int startRowB, int size)
+{
+   float totalValue = 0;
+   for (int col = 0; col < size; col++)
+   {
+      for (int row = 0; row < size; row++)
+      {
+         totalValue += matA[startColA][row] * matB[col][startRowB];
+      }
+   }
+   return totalValue;
+}
 
 void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int size)
 {
@@ -22,8 +36,7 @@ void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int s
    {
       for (j = 0; j < size; j++)
       {
-         float* currRow = matB[k];
-
+         matC[j][k] = getMultValue(matA, matB, k, j, size);
       }
    }
 }
@@ -54,7 +67,6 @@ int main()
    // non-sparse dynamic matrix
    DynMat matDyn, matDynAns;
 
-
    // allocate rows and initialize to 0
    for (r = 0; r < MAT_SIZE; r++)
    {
@@ -70,7 +82,10 @@ int main()
    smallPercent = MAT_SIZE/20. * MAT_SIZE;  // div by 20. means 5%, of course
    for (r = 0; r < smallPercent; r++)
    {
-
+      randFrac = rand();
+      randCol = rand() % MAT_SIZE;
+      randRow = rand() % MAT_SIZE;
+      matDyn[randRow][randCol] = randFrac;
    }
 
    // 10x10 submatrix in lower right
@@ -87,7 +102,8 @@ int main()
 
    // clean up
    for (r = 0; r < MAT_SIZE; r++)
-      // ??
+      delete matDyn[r];
+      delete matDynAns[r];
 
       cout << endl;
 }
