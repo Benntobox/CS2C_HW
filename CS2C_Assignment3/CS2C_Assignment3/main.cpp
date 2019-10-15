@@ -36,7 +36,8 @@ void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int s
    {
       for (j = 0; j < size; j++)
       {
-         matC[j][k] = getMultValue(matA, matB, k, j, size);
+         float* currentRow = matC[j];
+         currentRow[k] = getMultValue(matA, matB, k, j, size);
       }
    }
 }
@@ -70,19 +71,22 @@ int main()
    // allocate rows and initialize to 0
    for (r = 0; r < MAT_SIZE; r++)
    {
-      float newRow[MAT_SIZE];
+      float matDynRow[MAT_SIZE];
+      float matDynAnsRow[MAT_SIZE];
       for (c = 0; c < MAT_SIZE; c++)
       {
-         newRow[c] = c;
+         matDynRow[c] = 0;
+         matDynAnsRow[c] = 0;
       }
-      matDyn[r] = newRow;
+      matDyn[r] = matDynRow;
+      matDynAns[r] = matDynAnsRow;
    }
 
    // generate small% (bet .1 and 10%) non-default values (bet 0 and 1)
    smallPercent = MAT_SIZE/20. * MAT_SIZE;  // div by 20. means 5%, of course
    for (r = 0; r < smallPercent; r++)
    {
-      randFrac = rand();
+      randFrac = rand() % 1000;
       randCol = rand() % MAT_SIZE;
       randRow = rand() % MAT_SIZE;
       matDyn[randRow][randCol] = randFrac;
@@ -102,8 +106,8 @@ int main()
 
    // clean up
    for (r = 0; r < MAT_SIZE; r++)
-      delete matDyn[r];
-      delete matDynAns[r];
+      //delete matDyn[r];
+      //delete matDynAns[r];
 
       cout << endl;
 }
