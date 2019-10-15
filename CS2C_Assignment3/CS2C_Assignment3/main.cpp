@@ -5,12 +5,16 @@
 //  Created by Benjamin Boyle on 10/13/19.
 //  Copyright © 2019 Benjamin Boyle. All rights reserved.
 //
+// CS2C Assignment #3 Submission - Benny Boyle, 10/8/19
 
 #include <iostream>
 #include <cstdlib>
+#include <iomanip>
 using namespace std;
 
-const int MAT_SIZE = 20;
+// ------------------------- Global Scope Definitions --------------------------
+
+const int MAT_SIZE = 50;
 
 typedef float* DynMat[MAT_SIZE];
 
@@ -18,40 +22,38 @@ DynMat mDyn, nDyn, ansDyn;
 
 void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int size)
 {
-   int k, j, i;
-   float totalVal = 0;
-   for (k = 0; k < size; k++)
+   int r, c, i;
+   float totalVal;
+   for (r = 0; r < size; r++)
    {
-      for (j = 0; j < size; j++)
+      for (c = 0; c < size; c++)
       {
          totalVal = 0;
          for (i = 0; i < size; i++)
          {
-            totalVal += matA[k][i] * matB[i][j];
+            totalVal += matA[r][i] * matB[i][c];
          }
-         matC[k][j] = totalVal;
+         matC[r][c] = totalVal;
       }
    }
 }
 
 void matShowDyn( const DynMat & matA, int start, int size)
 {
-   int k, j, end;
+   int r, c, end;
    end = start + size;
-   for(k = start; k < end; k++)
+   for(r = start; r < end; r++)
    {
-      for(j = start; j < end; j++)
+      for(c = start; c < end; c++)
       {
-         float value = (int)(matA[k][j] * 100);
-         value = (float)value / 100;
-         cout << value;
-         //if (value == 0) { cout << ".00"; }
-         cout << " ";
+         cout << fixed << setprecision(2) << matA[r][c] << " ";
       }
       cout << endl;
    }
    cout << endl;
 }
+
+// ------------------------------------ Main ------------------------------------
 
 int main()
 {
@@ -84,7 +86,7 @@ int main()
       randFrac = (rand() % 100);
       randCol = rand() % MAT_SIZE;
       randRow = rand() % MAT_SIZE;
-      matDyn[randRow][randCol] = randFrac / 10;
+      matDyn[randRow][randCol] = randFrac / 100;
    }
 
    // 10x10 submatrix in lower right
@@ -105,6 +107,36 @@ int main()
       delete [] matDyn[r];
       delete [] matDynAns[r];
    }
-
    cout << endl;
 }
+
+/* ------------------------------------ Run -------------------------------------
+
+ 0.16 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.35 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.72 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+
+ 0.03 0.00 0.00 0.00 0.00 0.00 0.00 0.06 0.00 0.00
+ 0.08 0.00 0.57 0.00 0.00 0.00 0.00 0.00 0.75 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.29 0.00 0.00 0.00 0.00 0.00 0.33 0.00 0.00 0.00
+ 0.00 0.00 0.55 0.07 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.19 0.08 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.05 0.00 0.00 0.00 0.04 0.00 0.04
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00
+
+
+ Size = 50 Dyn Array Mult Elapsed Time: 0.00 seconds.
+
+
+ Program ended with exit code: 0
+ -------------------------------------------------------------------------------*/
