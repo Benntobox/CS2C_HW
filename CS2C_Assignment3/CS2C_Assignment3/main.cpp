@@ -10,7 +10,7 @@
 #include <cstdlib>
 using namespace std;
 
-const int MAT_SIZE = 1000;
+const int MAT_SIZE = 500;
 
 typedef float* DynMat[MAT_SIZE];
 
@@ -48,7 +48,9 @@ void matShowDyn( const DynMat & matA, int start, int size)
       {
          float value = (int)(matA[k][j] * 100);
          value = (float)value / 100;
-         cout << value << " ";
+         cout << value;
+         if (value == 0) { cout << ".00"; }
+         cout << " ";
       }
       cout << endl;
    }
