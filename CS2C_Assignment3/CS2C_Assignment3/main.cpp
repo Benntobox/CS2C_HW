@@ -140,3 +140,83 @@ int main()
 
  Program ended with exit code: 0
  -------------------------------------------------------------------------------*/
+
+/* ---------------------------------- Writeup -----------------------------------
+
+ Prior to running the code, my time complexity estimation of this code is as follows:
+
+ Upper bound O(): O(M^3)
+ Estimated Θ(): Θ(M^3)
+
+ The inside of the longest time complexity loop is inside the actual multiplication
+ function, matMultDyn(), which has three for loops inside it. Each of these loops is
+ iterating from 0 to MAT_SIZE, aka M, and so the time complexity will be M * M * M.
+ There are some slight other additions, and the print function matShowDyn() has a
+ complexity of O(M^2), but these are smaller than the complexity of matMultDyn() so
+ they are ignored.
+ The estimated time complexity is equal to the upper bound, because this function will
+ always iterate through every single possible value from 0 to M in each loop, so there
+ will be no reduction due to values of 0. If this were to utilize the sparseMatrix
+ from last lab, where default values were skipped, it is likely the estimated time
+ would be much shorter, but this program considers all values always.
+
+ Reflection questions:
+
+ 1. The smallest value of M that gave a non-zero time was M = 110
+
+ 2.
+ ------------------------------
+ - Value of M --- Time taken --
+ ------------------------------
+ -    30      ---    0.00    --
+ ------------------------------
+ -    50      ---    0.00    --
+ ------------------------------
+ -    100     ---    0.00    --
+ ------------------------------
+ -    110     --—    0.01    --
+ ------------------------------
+ -    200     ---    0.04    --
+ ------------------------------
+ -    250     ---    0.07    --
+ ------------------------------
+ -    300     ---    0.13    --
+ ------------------------------
+ -    400     ---    0.38    --
+ ------------------------------
+ -    500     --—    0.71    --
+ ------------------------------
+ -    600     ---    1.20    --
+ ------------------------------
+ -    700     ---    1.78    --
+ ------------------------------
+ -    800     ---    2.95    --
+ ------------------------------
+ -    900     --—    4.28    --
+ ------------------------------
+ -    1000    ---    7.54    --
+ ------------------------------
+ -    1250    --—    12.37   --
+ ------------------------------
+ -    1500    --—    21.60   --
+ ------------------------------
+ -    1600    --—    28.80   --
+ ------------------------------
+ -    2000    --—    97.00   --
+ ------------------------------
+
+
+ 3. After reaching almost two minutes at M = 2000, I decided that going further would
+ be impractical, and it seemed like the accuracy of the time was growing questionable.
+ Additionally, due to the size of the memory needed, the program was increasingly
+ writing to the disk instead of using RAM, which is what I suspect caused the time to
+ be significantly off what I had estimated it to be.
+
+ 4. Using the values of M as 200, 400, 800, and 1600, it can be safely estimated that
+ the time increase matches the time complexity of O(M^3). When M is doubled, the
+ expected time should increase by 2^3, or 8 times, and that does seem to be shown here.
+ 200 -> .04, 400 -> .38, 800 -> 2.95, 1600 -> 28.80, each time M is doubled, the time
+ taken increase roughly 8 times. For M sizes over 1000, data was being written to disk,
+ which may have had an impact on time taken, and increased variance in the results.
+
+ -------------------------------------------------------------------------------*/
