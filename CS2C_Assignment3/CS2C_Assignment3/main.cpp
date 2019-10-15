@@ -10,30 +10,26 @@
 #include <cstdlib>
 using namespace std;
 
-const int MAT_SIZE = 500;
+const int MAT_SIZE = 20;
 
 typedef float* DynMat[MAT_SIZE];
 
 DynMat mDyn, nDyn, ansDyn;
 
-float getMultValue(const DynMat & matA,  const DynMat & matB, int startColA, int startRowB, int size)
-{
-   float totalValue = 0;
-   for (int i = 0; i < size; i++)
-   {
-      totalValue += matA[i][startColA] * matB[startRowB][i];
-   }
-   return totalValue;
-}
-
 void matMultDyn( const DynMat & matA,  const DynMat & matB, DynMat & matC, int size)
 {
-   int k, j;
+   int k, j, i;
+   float totalVal = 0;
    for (k = 0; k < size; k++)
    {
       for (j = 0; j < size; j++)
       {
-         matC[j][k] = getMultValue(matA, matB, k, j, size);
+         totalVal = 0;
+         for (i = 0; i < size; i++)
+         {
+            totalVal += matA[k][i] * matB[i][j];
+         }
+         matC[k][j] = totalVal;
       }
    }
 }
@@ -49,7 +45,7 @@ void matShowDyn( const DynMat & matA, int start, int size)
          float value = (int)(matA[k][j] * 100);
          value = (float)value / 100;
          cout << value;
-         if (value == 0) { cout << ".00"; }
+         //if (value == 0) { cout << ".00"; }
          cout << " ";
       }
       cout << endl;
@@ -85,10 +81,10 @@ int main()
    smallPercent = MAT_SIZE/20. * MAT_SIZE;  // div by 20. means 5%, of course
    for (r = 0; r < smallPercent; r++)
    {
-      randFrac = (rand() % 100 - 50);
+      randFrac = (rand() % 100);
       randCol = rand() % MAT_SIZE;
       randRow = rand() % MAT_SIZE;
-      matDyn[randRow][randCol] = randFrac / 100;
+      matDyn[randRow][randCol] = randFrac / 10;
    }
 
    // 10x10 submatrix in lower right
@@ -104,9 +100,11 @@ int main()
    << " seconds." << endl << endl;
 
    // clean up
-   //for (r = 0; r < MAT_SIZE; r++)
-      //delete [] matDyn[r];
-      //delete [] matDynAns[r];
+   for (r = 0; r < MAT_SIZE; r++)
+   {
+      delete [] matDyn[r];
+      delete [] matDynAns[r];
+   }
 
-      //cout << endl;
+   cout << endl;
 }
