@@ -10,7 +10,7 @@
 #include <cstdlib>
 using namespace std;
 
-const int MAT_SIZE = 10;
+const int MAT_SIZE = 1000;
 
 typedef float* DynMat[MAT_SIZE];
 
@@ -46,7 +46,9 @@ void matShowDyn( const DynMat & matA, int start, int size)
    {
       for(j = start; j < end; j++)
       {
-         cout << matA[k][j] << " ";
+         float value = (int)(matA[k][j] * 100);
+         value = (float)value / 100;
+         cout << value << " ";
       }
       cout << endl;
    }
@@ -57,7 +59,7 @@ int main()
 {
    int r, c;
    clock_t startTime, stopTime;
-   double randFrac;
+   float randFrac;
    int randRow, randCol, smallPercent;
 
    // non-sparse dynamic matrix
@@ -79,12 +81,12 @@ int main()
 
    // generate small% (bet .1 and 10%) non-default values (bet 0 and 1)
    smallPercent = MAT_SIZE/20. * MAT_SIZE;  // div by 20. means 5%, of course
-   for (r = 0; r < smallPercent*10; r++)
+   for (r = 0; r < smallPercent; r++)
    {
-      randFrac = (rand() % 10);
+      randFrac = (rand() % 100 - 50);
       randCol = rand() % MAT_SIZE;
       randRow = rand() % MAT_SIZE;
-      matDyn[randRow][randCol] = randFrac - 3;
+      matDyn[randRow][randCol] = randFrac / 100;
    }
 
    // 10x10 submatrix in lower right
@@ -100,9 +102,9 @@ int main()
    << " seconds." << endl << endl;
 
    // clean up
-   for (r = 0; r < MAT_SIZE; r++)
-      //delete matDyn[r];
-      //delete matDynAns[r];
+   //for (r = 0; r < MAT_SIZE; r++)
+      //delete [] matDyn[r];
+      //delete [] matDynAns[r];
 
-      cout << endl;
+      //cout << endl;
 }
