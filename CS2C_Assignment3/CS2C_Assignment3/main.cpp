@@ -84,8 +84,8 @@ int main()
    for (r = 0; r < smallPercent; r++)
    {
       randFrac = (rand() % 100);
-      randCol = rand() % MAT_SIZE;
       randRow = rand() % MAT_SIZE;
+      randCol = rand() % MAT_SIZE;
       matDyn[randRow][randCol] = randFrac / 100;
    }
 
@@ -151,14 +151,12 @@ int main()
  The inside of the longest time complexity loop is inside the actual multiplication
  function, matMultDyn(), which has three for loops inside it. Each of these loops is
  iterating from 0 to MAT_SIZE, aka M, and so the time complexity will be M * M * M.
- There are some slight other additions, and the print function matShowDyn() has a
- complexity of O(M^2), but these are smaller than the complexity of matMultDyn() so
- they are ignored.
+
  The estimated time complexity is equal to the upper bound, because this function will
  always iterate through every single possible value from 0 to M in each loop, so there
  will be no reduction due to values of 0. If this were to utilize the sparseMatrix
  from last lab, where default values were skipped, it is likely the estimated time
- would be much shorter, but this program considers all values always.
+ would be much shorter, but this program iterates over all values always.
 
  Reflection questions:
 
