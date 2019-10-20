@@ -13,7 +13,7 @@
 
 // ---------------------- FHs_treeNode Prototype --------------------------
 template <class Comparable>
-class FHs_treeNode
+class FHlazySearchTreeNode
 {
 public:
    FHs_treeNode( const Comparable & d = Comparable(),
@@ -32,7 +32,7 @@ public:
 
 // ---------------------- FHsearch_tree Prototype --------------------------
 template <class Comparable>
-class FHsearch_tree
+class FHlazySeachTree
 {
 protected:
    int mSize;
