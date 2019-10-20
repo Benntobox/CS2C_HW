@@ -16,14 +16,15 @@ template <class Comparable>
 class FHlazySearchTreeNode
 {
 public:
-   FHs_treeNode( const Comparable & d = Comparable(),
-                FHs_treeNode *lt = nullptr,
-                FHs_treeNode *rt = nullptr)
-   : lftChild(lt), rtChild(rt), data(d)
+   FHlazySearchTreeNode( const Comparable & d = Comparable(),
+                FHlazySearchTreeNode *lt = nullptr,
+                FHlazySearchTreeNode *rt = nullptr)
+   : lftChild(lt), rtChild(rt), data(d), deleted(false)
    { }
 
-   FHs_treeNode *lftChild, *rtChild;
+   FHlazySearchTreeNode *lftChild, *rtChild;
    Comparable data;
+   bool deleted;
 
    // for use only with AVL Trees
    virtual int getHeight() const { return 0; }
@@ -32,17 +33,17 @@ public:
 
 // ---------------------- FHsearch_tree Prototype --------------------------
 template <class Comparable>
-class FHlazySeachTree
+class FHlazySearchTree
 {
 protected:
-   int mSize;
-   FHs_treeNode<Comparable> *mRoot;
+   int mSize, mSizeHard;
+   FHlazySearchTreeNode<Comparable> *mRoot;
 
 public:
-   FHsearch_tree() { mSize = 0; mRoot = nullptr; }
-   FHsearch_tree(const FHsearch_tree &rhs)
+   FHlazySearchTree() { mSize = 0; mRoot = nullptr; }
+   FHlazySearchTree(const FHlazySearchTree &rhs)
    { mRoot = nullptr; mSize = 0; *this = rhs; }
-   ~FHsearch_tree() { clear(); }
+   ~FHlazySearchTree() { clear(); }
 
    const Comparable &findMin() const;
    const Comparable &findMax() const;
@@ -50,8 +51,11 @@ public:
 
    bool empty() const { return (mSize == 0); }
    int size() const { return mSize; }
+   int sizeHard() const { return mSizeHard; }
    void clear() { makeEmpty(mRoot); }
-   const FHsearch_tree & operator=(const FHsearch_tree &rhs);
+   void collectGarbage() { clear(); }
+   const FHlazySearchTree & operator=(const FHlazySearchTree &rhs);
+
 
    bool insert(const Comparable &x);
    bool remove(const Comparable &x);
@@ -62,19 +66,19 @@ public:
    int showHeight() const { return findHeight(mRoot); }
 
 protected:
-   FHs_treeNode<Comparable> *clone( FHs_treeNode<Comparable> *root) const;
-   FHs_treeNode<Comparable> *findMin(FHs_treeNode<Comparable> *root) const;
-   FHs_treeNode<Comparable> *findMax(FHs_treeNode<Comparable> *root) const;
-   FHs_treeNode<Comparable> *find(FHs_treeNode<Comparable> *root,
+   FHlazySearchTreeNode<Comparable> *clone( FHlazySearchTreeNode<Comparable> *root) const;
+   FHlazySearchTreeNode<Comparable> *findMin(FHlazySearchTreeNode<Comparable> *root) const;
+   FHlazySearchTreeNode<Comparable> *findMax(FHlazySearchTreeNode<Comparable> *root) const;
+   FHlazySearchTreeNode<Comparable> *find(FHlazySearchTreeNode<Comparable> *root,
                                   const Comparable &x) const;
-   bool insert(FHs_treeNode<Comparable> * &root,
+   bool insert(FHlazySearchTreeNode<Comparable> * &root,
                const Comparable &x);
-   bool remove(FHs_treeNode<Comparable> * &root, const Comparable &x);
-   void makeEmpty(FHs_treeNode<Comparable> * &subtreeToDelete);
+   bool remove(FHlazySearchTreeNode<Comparable> * &root, const Comparable &x);
+   void makeEmpty(FHlazySearchTreeNode<Comparable> * &subtreeToDelete);
    template <class Processor>
-   void traverse(FHs_treeNode<Comparable> *treeNode,
+   void traverse(FHlazySearchTreeNode<Comparable> *treeNode,
                  Processor func, int level = -1) const;
-   int findHeight(FHs_treeNode<Comparable> *treeNode, int height = -1) const;
+   int findHeight(FHlazySearchTreeNode<Comparable> *treeNode, int height = -1) const;
 
 public:
    // for exception throwing
@@ -84,7 +88,7 @@ public:
 
 // FHsearch_tree public method definitions -----------------------------
 template <class Comparable>
-const Comparable & FHsearch_tree<Comparable>::findMin() const
+const Comparable & FHlazySearchTree<Comparable>::findMin() const
 {
    if (mRoot == nullptr)
       throw EmptyTreeException();
@@ -92,7 +96,7 @@ const Comparable & FHsearch_tree<Comparable>::findMin() const
 }
 
 template <class Comparable>
-const Comparable & FHsearch_tree<Comparable>::findMax() const
+const Comparable & FHlazySearchTree<Comparable>::findMax() const
 {
    if (mRoot == nullptr)
       throw EmptyTreeException();
@@ -100,10 +104,10 @@ const Comparable & FHsearch_tree<Comparable>::findMax() const
 }
 
 template <class Comparable>
-const Comparable &FHsearch_tree<Comparable>::find(
+const Comparable &FHlazySearchTree<Comparable>::find(
                                                   const Comparable &x) const
 {
-   FHs_treeNode<Comparable> *resultNode;
+   FHlazySearchTreeNode<Comparable> *resultNode;
 
    resultNode = find(mRoot, x);
    if (resultNode == nullptr)
@@ -112,8 +116,8 @@ const Comparable &FHsearch_tree<Comparable>::find(
 }
 
 template <class Comparable>
-const FHsearch_tree<Comparable> &FHsearch_tree<Comparable>::operator=
-(const FHsearch_tree &rhs)
+const FHlazySearchTree<Comparable> &FHlazySearchTree<Comparable>::operator=
+(const FHlazySearchTree &rhs)
 {
    if (&rhs != this)
    {
@@ -125,7 +129,7 @@ const FHsearch_tree<Comparable> &FHsearch_tree<Comparable>::operator=
 }
 
 template <class Comparable>
-bool FHsearch_tree<Comparable>::insert(const Comparable &x)
+bool FHlazySearchTree<Comparable>::insert(const Comparable &x)
 {
    if (insert(mRoot, x))
    {
@@ -136,7 +140,7 @@ bool FHsearch_tree<Comparable>::insert(const Comparable &x)
 }
 
 template <class Comparable>
-bool FHsearch_tree<Comparable>::remove(const Comparable &x)
+bool FHlazySearchTree<Comparable>::remove(const Comparable &x)
 {
    if (remove(mRoot, x))
    {
@@ -148,7 +152,7 @@ bool FHsearch_tree<Comparable>::remove(const Comparable &x)
 
 template <class Comparable>
 template <class Processor>
-void FHsearch_tree<Comparable>::traverse( FHs_treeNode<Comparable> *treeNode,
+void FHlazySearchTree<Comparable>::traverse( FHlazySearchTreeNode<Comparable> *treeNode,
                                          Processor func, int level) const
 {
    if (treeNode == nullptr)
@@ -162,22 +166,22 @@ void FHsearch_tree<Comparable>::traverse( FHs_treeNode<Comparable> *treeNode,
 
 // FHsearch_tree private method definitions -----------------------------
 template <class Comparable>
-FHs_treeNode<Comparable> *FHsearch_tree<Comparable>::clone(
-                                                           FHs_treeNode<Comparable> *root) const
+FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::clone(
+                                                           FHlazySearchTreeNode<Comparable> *root) const
 {
-   FHs_treeNode<Comparable> *newNode;
+   FHlazySearchTreeNode<Comparable> *newNode;
    if (root == nullptr)
       return nullptr;
 
-   newNode =  new FHs_treeNode<Comparable>(
+   newNode =  new FHlazySearchTreeNode<Comparable>(
                                            root->data,
                                            clone(root->lftChild), clone(root->rtChild));
    return newNode;
 }
 
 template <class Comparable>
-FHs_treeNode<Comparable> *FHsearch_tree<Comparable>::findMin(
-                                                             FHs_treeNode<Comparable> *root) const
+FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMin(
+                                                             FHlazySearchTreeNode<Comparable> *root) const
 {
    if (root == nullptr)
       return nullptr;
@@ -187,8 +191,8 @@ FHs_treeNode<Comparable> *FHsearch_tree<Comparable>::findMin(
 }
 
 template <class Comparable>
-FHs_treeNode<Comparable> *FHsearch_tree<Comparable>::findMax(
-                                                             FHs_treeNode<Comparable> *root) const
+FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
+                                                             FHlazySearchTreeNode<Comparable> *root) const
 {
    if (root == nullptr)
       return nullptr;
@@ -198,8 +202,8 @@ FHs_treeNode<Comparable> *FHsearch_tree<Comparable>::findMax(
 }
 
 template <class Comparable>
-FHs_treeNode<Comparable>* FHsearch_tree<Comparable>::find(
-                                                          FHs_treeNode<Comparable> *root, const Comparable &x) const
+FHlazySearchTreeNode<Comparable>* FHlazySearchTree<Comparable>::find(
+                                                          FHlazySearchTreeNode<Comparable> *root, const Comparable &x) const
 {
    if (root == nullptr)
       return nullptr;
@@ -212,12 +216,12 @@ FHs_treeNode<Comparable>* FHsearch_tree<Comparable>::find(
 }
 
 template <class Comparable>
-bool FHsearch_tree<Comparable>::insert(
-                                       FHs_treeNode<Comparable> * &root, const Comparable &x)
+bool FHlazySearchTree<Comparable>::insert(
+                                       FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
 {
    if (root == nullptr)
    {
-      root = new FHs_treeNode<Comparable>(x, nullptr, nullptr);
+      root = new FHlazySearchTreeNode<Comparable>(x, nullptr, nullptr);
       return true;
    }
    else if (x < root->data)
@@ -227,7 +231,7 @@ bool FHsearch_tree<Comparable>::insert(
 
    return false; // duplicate
 }
-
+/*       HARD REMOVAL
 template <class Comparable>
 bool FHsearch_tree<Comparable>::remove(
                                        FHs_treeNode<Comparable> * &root, const Comparable &x)
@@ -255,10 +259,19 @@ bool FHsearch_tree<Comparable>::remove(
    }
    return true;
 }
+ */
 
 template <class Comparable>
-void FHsearch_tree<Comparable>::makeEmpty(
-                                          FHs_treeNode<Comparable> * &subtreeToDelete)
+bool FHlazySearchTree<Comparable>::remove(
+                                          FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
+{
+   return true;
+}
+
+
+template <class Comparable>
+void FHlazySearchTree<Comparable>::makeEmpty(
+                                          FHlazySearchTreeNode<Comparable> * &subtreeToDelete)
 {
    if (subtreeToDelete == nullptr)
       return;
@@ -274,7 +287,7 @@ void FHsearch_tree<Comparable>::makeEmpty(
 }
 
 template <class Comparable>
-int FHsearch_tree<Comparable>::findHeight( FHs_treeNode<Comparable> *treeNode,
+int FHlazySearchTree<Comparable>::findHeight( FHlazySearchTreeNode<Comparable> *treeNode,
                                           int height ) const
 {
    int leftHeight, rightHeight;
