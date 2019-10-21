@@ -265,7 +265,15 @@ template <class Comparable>
 bool FHlazySearchTree<Comparable>::remove(
                                           FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
 {
-   return true;
+   if (root == nullptr) { return false; }
+   FHlazySearchTreeNode<Comparable> targetNode;
+   if ((targetNode = find(root, x)))
+   {
+      if (targetNode.deleted == true) { return false; }
+      targetNode.deleted = true;
+      return true;
+   }
+   return false;
 }
 
 
