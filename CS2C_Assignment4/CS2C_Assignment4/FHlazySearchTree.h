@@ -53,7 +53,7 @@ public:
    int size() const { return mSize; }
    int sizeHard() const { return mSizeHard; }
    void clear() { makeEmpty(mRoot); }
-   void collectGarbage() { clear(); }
+   void collectGarbage();
    const FHlazySearchTree & operator=(const FHlazySearchTree &rhs);
 
 
@@ -79,6 +79,7 @@ protected:
    void traverse(FHlazySearchTreeNode<Comparable> *treeNode,
                  Processor func, int level = -1) const;
    int findHeight(FHlazySearchTreeNode<Comparable> *treeNode, int height = -1) const;
+   void collectGarbage( FHlazySearchTreeNode<Comparable> *root);
 
 public:
    // for exception throwing
@@ -151,6 +152,12 @@ bool FHlazySearchTree<Comparable>::remove(const Comparable &x)
 }
 
 template <class Comparable>
+void FHlazySearchTree<Comparable>::collectGarbage()
+{
+   collectGarbage(mRoot);
+}
+
+template <class Comparable>
 template <class Processor>
 void FHlazySearchTree<Comparable>::traverse( FHlazySearchTreeNode<Comparable> *treeNode,
                                          Processor func, int level) const
@@ -185,6 +192,8 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMin(
 {
    if (root == nullptr)
       return nullptr;
+   if (root->deleted == true)
+      return findMin(root->lftChild);
    if (root->lftChild == nullptr)
       return root;
    return findMin(root->lftChild);
@@ -196,6 +205,8 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
 {
    if (root == nullptr)
       return nullptr;
+   if (root->deleted == true)
+      return findMax(root->rtChild);
    if (root->rtChild == nullptr)
       return root;
    return findMax(root->rtChild);
@@ -212,9 +223,11 @@ FHlazySearchTreeNode<Comparable>* FHlazySearchTree<Comparable>::find(
       return find(root->lftChild, x);
    if (root->data < x)
       return find(root->rtChild, x);
+   if (root->deleted == true)
+      return nullptr;
    return root;
 }
-
+/*
 template <class Comparable>
 bool FHlazySearchTree<Comparable>::insert(
                                        FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
@@ -231,7 +244,7 @@ bool FHlazySearchTree<Comparable>::insert(
 
    return false; // duplicate
 }
-/*       HARD REMOVAL
+       HARD REMOVAL
 template <class Comparable>
 bool FHsearch_tree<Comparable>::remove(
                                        FHs_treeNode<Comparable> * &root, const Comparable &x)
@@ -262,15 +275,40 @@ bool FHsearch_tree<Comparable>::remove(
  */
 
 template <class Comparable>
+bool FHlazySearchTree<Comparable>::insert(
+                                          FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
+{
+   if (root == nullptr)
+   {
+      root = new FHlazySearchTreeNode<Comparable>(x, nullptr, nullptr);
+      return true;
+   }
+   else if (x == root->data)
+   {
+      if (root->deleted == true){
+         root->deleted = false;
+         return true;
+      }
+      return false;
+   }
+   else if (x < root->data)
+      return insert(root->lftChild, x);
+   else if (root->data < x)
+      return insert(root->rtChild, x);
+
+   return false; // duplicate
+}
+
+template <class Comparable>
 bool FHlazySearchTree<Comparable>::remove(
                                           FHlazySearchTreeNode<Comparable> * &root, const Comparable &x)
 {
    if (root == nullptr) { return false; }
-   FHlazySearchTreeNode<Comparable> targetNode;
+   FHlazySearchTreeNode<Comparable>* targetNode;
    if ((targetNode = find(root, x)))
    {
-      if (targetNode.deleted == true) { return false; }
-      targetNode.deleted = true;
+      if (targetNode->deleted == true) { return false; }
+      targetNode->deleted = true;
       return true;
    }
    return false;
@@ -289,8 +327,7 @@ void FHlazySearchTree<Comparable>::makeEmpty(
    makeEmpty(subtreeToDelete->rtChild);
 
    // clear client's pointer
-   delete subtreeToDelete;
-   subtreeToDelete = nullptr;
+   subtreeToDelete->deleted = true;
    --mSize;
 }
 
@@ -306,6 +343,33 @@ int FHlazySearchTree<Comparable>::findHeight( FHlazySearchTreeNode<Comparable> *
    leftHeight = findHeight(treeNode->lftChild, height);
    rightHeight = findHeight(treeNode->rtChild, height);
    return (leftHeight > rightHeight)? leftHeight : rightHeight;
+}
+
+template <class Comparable>
+void FHlazySearchTree<Comparable>::collectGarbage( FHlazySearchTreeNode<Comparable> *root)
+{
+   if (root == nullptr)
+      return;
+
+   if (x < root->data)
+      return remove(root->lftChild, x);
+   if (root->data < x)
+      return remove(root->rtChild, x);
+
+   // found the node
+   if (root->lftChild != nullptr && root->rtChild != nullptr)
+   {
+      FHs_treeNode<Comparable> *minNode = findMin(root->rtChild);
+      root->data = minNode->data;
+      remove(root->rtChild, minNode->data);
+   }
+   else
+   {
+      FHs_treeNode<Comparable> *nodeToRemove = root;
+      root = (root->lftChild != nullptr)? root->lftChild : root->rtChild;
+      delete nodeToRemove;
+   }
+   return true;
 }
 
 #endif
