@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.848914"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.849707"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.85014"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
+            landmarkName = "hardRemove(FHlazySearchTreeNode&lt;Comparable&gt; * &amp;root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.850611"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "hardRemove(FHlazySearchTreeNode&lt;Comparable&gt; * &amp;root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.851041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.851429"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.851689"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.85192"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.85215"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CS2C_Assignment4/FHlazySearchTree.h"
+            timestampString = "593408617.852375"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "findMin( FHlazySearchTreeNode&lt;Comparable&gt; *root)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

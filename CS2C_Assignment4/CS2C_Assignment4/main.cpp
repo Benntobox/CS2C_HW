@@ -43,6 +43,8 @@ int main()
    searchTree.insert(10);
    searchTree.insert(60);
 
+   searchTree.traverse(PrintObject<int>());
+
    cout << "After populating -- traversal and sizes: \n";
    searchTree.traverse(intPrinter);
    cout << "\ntree 1 size: " << searchTree.size()
