@@ -300,6 +300,8 @@ bool FHlazySearchTree<Comparable>::hardRemove(FHlazySearchTreeNode<Comparable> *
       {
          FHlazySearchTreeNode<Comparable> *minNode = findMin(root->rtChild);
          root->data = minNode->data;
+         root->deleted = false;
+         minNode->deleted = true;
          hardRemove(root->rtChild, minNode->data);
       }
       else if (findMin(root->lftChild) != nullptr)
@@ -314,6 +316,7 @@ bool FHlazySearchTree<Comparable>::hardRemove(FHlazySearchTreeNode<Comparable> *
       FHlazySearchTreeNode<Comparable> *nodeToRemove = root;
       root = (root->lftChild != nullptr)? root->lftChild : root->rtChild;
       delete nodeToRemove;
+      mSizeHard--;
    }
    return true;
 
@@ -383,10 +386,15 @@ void FHlazySearchTree<Comparable>::collectGarbage( FHlazySearchTreeNode<Comparab
    if (root->deleted == true)
    {
       hardRemove(root, root->data);
-      mSizeHard--;
    }
-   if (root->lftChild != nullptr) { collectGarbage(root->lftChild); }
-   if (root->rtChild != nullptr) { collectGarbage(root->lftChild); }
+   if (root->lftChild != nullptr)
+   {
+      collectGarbage(root->lftChild);
+   }
+   if (root->rtChild != nullptr)
+   {
+      collectGarbage(root->lftChild);
+   }
 
 }
 
