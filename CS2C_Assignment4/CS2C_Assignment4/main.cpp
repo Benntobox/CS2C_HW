@@ -35,6 +35,7 @@ int main()
 
    searchTree.traverse(intPrinter);
 
+
    cout << "\ninitial size: " << searchTree.size() << endl;
    searchTree.insert(50);
    searchTree.insert(20);
@@ -42,8 +43,9 @@ int main()
    searchTree.insert(70);
    searchTree.insert(10);
    searchTree.insert(60);
+   searchTree.insert(5);
 
-   searchTree.traverse(PrintObject<int>());
+   cout << "Min val: " << searchTree.findMin();
 
    cout << "After populating -- traversal and sizes: \n";
    searchTree.traverse(intPrinter);
