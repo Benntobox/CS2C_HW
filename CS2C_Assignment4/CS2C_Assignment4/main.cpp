@@ -42,10 +42,6 @@ int main()
    searchTree.insert(70);
    searchTree.insert(10);
    searchTree.insert(60);
-   searchTree.insert(5);
-
-   cout << "Min val: " << searchTree.findMin();
-
    cout << "After populating -- traversal and sizes: \n";
    searchTree.traverse(intPrinter);
    cout << "\ntree 1 size: " << searchTree.size()
