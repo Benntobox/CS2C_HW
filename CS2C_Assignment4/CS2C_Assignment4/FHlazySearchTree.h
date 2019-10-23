@@ -80,7 +80,7 @@ protected:
    void traverse(FHlazySearchTreeNode<Comparable> *treeNode,
                  Processor func, int level = -1) const;
    int findHeight(FHlazySearchTreeNode<Comparable> *treeNode, int height = -1) const;
-   void collectGarbage( FHlazySearchTreeNode<Comparable> *root);
+   void collectGarbage( FHlazySearchTreeNode<Comparable>* &root);
 
 public:
    // for exception throwing
@@ -367,24 +367,26 @@ int FHlazySearchTree<Comparable>::findHeight( FHlazySearchTreeNode<Comparable> *
 }
 
 template <class Comparable>
-void FHlazySearchTree<Comparable>::collectGarbage( FHlazySearchTreeNode<Comparable> *root)
+void FHlazySearchTree<Comparable>::collectGarbage( FHlazySearchTreeNode<Comparable>* &root)
 {
    if (root == nullptr)
       return;
-
-
-   collectGarbage(root->lftChild);
-   collectGarbage(root->rtChild);
 
    FHlazySearchTreeNode<Comparable>* nodeToBeDeleted;
    if (root->deleted == true)
    {
       if (!hardRemove(root))
       {
-         nodeToBeDeleted = root;
-         root = root->rtChild != nullptr? root->rtChild : root->lftChild;
-         delete nodeToBeDeleted;
+         collectGarbage(root->lftChild);
+         collectGarbage(root->rtChild);
+         delete root;
+         root = nullptr;
          mSizeHard--;
+      }
+      else
+      {
+         collectGarbage(root->lftChild);
+         collectGarbage(root->rtChild);
       }
    }
 
