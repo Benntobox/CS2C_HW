@@ -94,6 +94,10 @@ const Comparable & FHlazySearchTree<Comparable>::findMin() const
 {
    if (mRoot == nullptr)
       throw EmptyTreeException();
+   if (findMin(mRoot) == nullptr)
+   {
+      throw EmptyTreeException();
+   }
    return findMin(mRoot)->data;
 }
 
@@ -102,6 +106,10 @@ const Comparable & FHlazySearchTree<Comparable>::findMax() const
 {
    if (mRoot == nullptr)
       throw EmptyTreeException();
+   if (findMax(mRoot) == nullptr)
+   {
+      throw EmptyTreeException();
+   }
    return findMax(mRoot)->data;
 }
 
@@ -221,17 +229,17 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
       return nullptr;
    if (root->deleted == true)
    {
-      FHlazySearchTreeNode<Comparable> *rightMin;
+      FHlazySearchTreeNode<Comparable> *rightMax;
       if (root->rtChild == nullptr && root->lftChild == nullptr)
          return nullptr;
-      if ((rightMin = findMin(root->rtChild)))
-         return rightMin;
+      if ((rightMax = findMax(root->rtChild)))
+         return rightMax;
       else
-         return findMin(root->lftChild);
+         return findMax(root->lftChild);
    }
    if (root->rtChild == nullptr)
       return root;
-   return findMin(root->rtChild);
+   return findMax(root->rtChild);
 }
 
 template <class Comparable>

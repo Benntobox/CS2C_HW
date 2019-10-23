@@ -35,6 +35,17 @@ int main()
 
    searchTree.traverse(intPrinter);
 
+   // testing min and max on empty tree
+   try
+   {
+      cout << endl << "Min value of tree: " << searchTree.findMin() << endl;
+      cout << "Max value of tree: " << searchTree.findMax() << endl;
+   }
+   catch(...)
+   {
+      cout << "Empty tree, no values for max or min" << endl;
+   }
+
    cout << "\ninitial size: " << searchTree.size() << endl;
    searchTree.insert(50);
    searchTree.insert(20);
@@ -42,6 +53,8 @@ int main()
    searchTree.insert(70);
    searchTree.insert(10);
    searchTree.insert(60);
+   searchTree.insert(5);
+   searchTree.insert(25);
    cout << "After populating -- traversal and sizes: \n";
    searchTree.traverse(intPrinter);
    cout << "\ntree 1 size: " << searchTree.size()
@@ -51,6 +64,10 @@ int main()
    searchTree.collectGarbage();
    cout << "tree 1 size: " << searchTree.size()
    << "  Hard size: " << searchTree.sizeHard() << endl;
+
+   // testing min and max on full tree
+   cout << endl << "Min value of tree: " << searchTree.findMin() << endl;
+   cout << "Max value of tree: " << searchTree.findMax() << endl;
 
    // test assignment operator
    FHlazySearchTree<int> searchTree2 = searchTree;
@@ -104,6 +121,17 @@ int main()
          cout << "removed " << k << endl;
    }
 
+   // testing min and max on soft deleted tree
+   try
+   {
+      cout << endl << "Min value of tree: " << searchTree.findMin() << endl;
+      cout << "Max value of tree: " << searchTree.findMax() << endl;
+   }
+   catch(...)
+   {
+      cout << "Empty tree, no values for max or min" << endl;
+   }
+
    searchTree.collectGarbage();
 
    cout << "\nsearchTree now:\n";
@@ -121,6 +149,25 @@ int main()
    searchTree2.traverse(intPrinter);
    cout << "\ntree 2 size: " << searchTree2.size()
    << "  Hard size: " << searchTree2.sizeHard() << endl;
+
+   cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
+   cout << "Max value of tree: " << searchTree2.findMax() << endl;
+
+   searchTree2.remove(5);
+   searchTree2.remove(10);
+   searchTree2.remove(20);
+   searchTree2.remove(25);
+   searchTree2.remove(30);
+   searchTree2.remove(50);
+   searchTree2.remove(60);
+   searchTree2.remove(70);
+   searchTree2.remove(100);
+   searchTree2.remove(200);
+   searchTree2.remove(300);
+   searchTree2.remove(700);
+
+   cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
+   cout << "Max value of tree: " << searchTree2.findMax() << endl;
 
    return 0;
 }
