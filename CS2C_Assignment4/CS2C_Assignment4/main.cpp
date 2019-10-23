@@ -35,7 +35,6 @@ int main()
 
    searchTree.traverse(intPrinter);
 
-
    cout << "\ninitial size: " << searchTree.size() << endl;
    searchTree.insert(50);
    searchTree.insert(20);
@@ -108,6 +107,7 @@ int main()
       if (searchTree.remove(k))
          cout << "removed " << k << endl;
    }
+
    searchTree.collectGarbage();
 
    cout << "\nsearchTree now:\n";
