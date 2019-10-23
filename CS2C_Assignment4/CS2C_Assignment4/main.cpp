@@ -53,8 +53,6 @@ int main()
    searchTree.insert(70);
    searchTree.insert(10);
    searchTree.insert(60);
-   searchTree.insert(5);
-   searchTree.insert(25);
    cout << "After populating -- traversal and sizes: \n";
    searchTree.traverse(intPrinter);
    cout << "\ntree 1 size: " << searchTree.size()
@@ -145,6 +143,7 @@ int main()
    searchTree2.insert(700);
    searchTree2.insert(100);
    searchTree2.insert(600);
+
    cout << "\nsearchTree2:\n";
    searchTree2.traverse(intPrinter);
    cout << "\ntree 2 size: " << searchTree2.size()
@@ -152,6 +151,10 @@ int main()
 
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
    cout << "Max value of tree: " << searchTree2.findMax() << endl;
+
+   cout << endl << "Additional Testing: " << endl;
+
+   cout << endl << "Removing some values from searchTree2" << endl;
 
    searchTree2.remove(5);
    searchTree2.remove(10);
@@ -165,10 +168,29 @@ int main()
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
    cout << "Max value of tree: " << searchTree2.findMax() << endl;
 
+   cout << endl << "Removing more values from searchTree2" << endl;
+
    searchTree2.remove(100);
    searchTree2.remove(200);
    searchTree2.remove(600);
    searchTree2.remove(700);
+
+   cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
+   cout << "Max value of tree: " << searchTree2.findMax() << endl;
+
+   searchTree2.collectGarbage();
+
+   cout << endl << "Collecting garbage and adding some new values to searchTree2" << endl;
+
+   searchTree2.insert(50);
+   searchTree2.insert(20);
+   searchTree2.insert(150);
+   searchTree2.insert(900);
+
+   cout << "\nsearchTree2:\n";
+   searchTree2.traverse(intPrinter);
+   cout << "\ntree 2 size: " << searchTree2.size()
+   << "  Hard size: " << searchTree2.sizeHard() << endl;
 
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
    cout << "Max value of tree: " << searchTree2.findMax() << endl;
