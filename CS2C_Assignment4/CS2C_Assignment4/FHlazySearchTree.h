@@ -206,9 +206,10 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMin(
 {
    if (root == nullptr)
       return nullptr;
+
+   FHlazySearchTreeNode<Comparable> *leftMin = nullptr;
    if (root->deleted == true)
    {
-      FHlazySearchTreeNode<Comparable> *leftMin = nullptr;
       if (root->rtChild == nullptr && root->lftChild == nullptr)
          return nullptr;
       if ((leftMin = findMin(root->lftChild)))
@@ -216,10 +217,9 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMin(
       else
          return findMin(root->rtChild);
    }
-   if (findMin(root->lftChild) != nullptr)
-      return findMin(root->lftChild);
-   if (findMin(root->rtChild) != nullptr)
-      return findMin(root->rtChild);
+   leftMin = findMin(root->lftChild);
+   if (leftMin != nullptr && leftMin->data < root->data)
+      return leftMin;
    return root;
 }
 
@@ -229,9 +229,10 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
 {
    if (root == nullptr)
       return nullptr;
+
+   FHlazySearchTreeNode<Comparable> *rightMax;
    if (root->deleted == true)
    {
-      FHlazySearchTreeNode<Comparable> *rightMax;
       if (root->rtChild == nullptr && root->lftChild == nullptr)
          return nullptr;
       if ((rightMax = findMax(root->rtChild)))
@@ -239,10 +240,9 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
       else
          return findMax(root->lftChild);
    }
-   if (findMax(root->rtChild) != nullptr)
+   rightMax = findMax(root->rtChild);
+   if (rightMax != nullptr && rightMax->data > root->data)
       return findMax(root->rtChild);
-   if (findMax(root->lftChild) != nullptr)
-      return findMax(root->lftChild);
    return root;
 }
 

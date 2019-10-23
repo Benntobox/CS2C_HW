@@ -161,6 +161,10 @@ int main()
    searchTree2.remove(50);
    searchTree2.remove(60);
    searchTree2.remove(70);
+
+   cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
+   cout << "Max value of tree: " << searchTree2.findMax() << endl;
+
    searchTree2.remove(100);
    searchTree2.remove(200);
    searchTree2.remove(600);
