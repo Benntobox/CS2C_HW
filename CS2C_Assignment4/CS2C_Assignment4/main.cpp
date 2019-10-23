@@ -163,7 +163,7 @@ int main()
    searchTree2.remove(70);
    searchTree2.remove(100);
    searchTree2.remove(200);
-   searchTree2.remove(300);
+   searchTree2.remove(600);
    searchTree2.remove(700);
 
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;

@@ -216,9 +216,11 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMin(
       else
          return findMin(root->rtChild);
    }
-   if (root->lftChild == nullptr)
-      return root;
-   return findMin(root->lftChild);
+   if (findMin(root->lftChild) != nullptr)
+      return findMin(root->lftChild);
+   if (findMin(root->rtChild) != nullptr)
+      return findMin(root->rtChild);
+   return root;
 }
 
 template <class Comparable>
@@ -237,9 +239,11 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::findMax(
       else
          return findMax(root->lftChild);
    }
-   if (root->rtChild == nullptr)
-      return root;
-   return findMax(root->rtChild);
+   if (findMax(root->rtChild) != nullptr)
+      return findMax(root->rtChild);
+   if (findMax(root->lftChild) != nullptr)
+      return findMax(root->lftChild);
+   return root;
 }
 
 template <class Comparable>
