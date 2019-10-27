@@ -178,6 +178,7 @@ int main()
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
    cout << "Max value of tree: " << searchTree2.findMax() << endl;
 
+   FHlazySearchTree<int> searchTree3 = searchTree2;
    searchTree2.collectGarbage();
 
    cout << endl << "Collecting garbage and adding some new values to searchTree2" << endl;
@@ -194,6 +195,11 @@ int main()
 
    cout << endl << "Min value of tree: " << searchTree2.findMin() << endl;
    cout << "Max value of tree: " << searchTree2.findMax() << endl;
+
+   cout << "\nsearchTree3:\n";
+   searchTree3.traverse(intPrinter);
+   cout << "\ntree 3 size: " << searchTree3.size()
+   << "  Hard size: " << searchTree3.sizeHard() << endl;
 
    return 0;
 }

@@ -1,4 +1,3 @@
-
 // CS2C Assignment #4 Submission - Benny Boyle, 10/23/19
 #include <iostream>
 #include <string>
@@ -312,13 +311,9 @@ bool FHlazySearchTree<Comparable>::hardRemove(FHlazySearchTreeNode<Comparable> *
       root->data = minNode->data;
       root->deleted = false;
       minNode->deleted = true;
-      return false;
+      return true;
    }
-   // leaf node
-   delete root;
-   root = nullptr;
-   mSizeHard--;
-   return true;
+   return false;
 }
 
 template <class Comparable>
@@ -362,8 +357,16 @@ void FHlazySearchTree<Comparable>::collectGarbage( FHlazySearchTreeNode<Comparab
 
    if (root->deleted == true)
    {
-      if (!hardRemove(root))
+      if (hardRemove(root))
+      {
          collectGarbage(root);
+      }
+      else
+      {
+         delete root;
+         root = nullptr;
+         mSizeHard--;
+      }
    }
 }
 
@@ -566,89 +569,89 @@ int main()
 
 /* ------------------------------------ Runs ------------------------------------
 
- Min value of tree: Empty tree, no values for max or min
+Min value of tree: Empty tree, no values for max or min
 
- initial size: 0
- After populating -- traversal and sizes:
- 10 20 30 50 60 70
- tree 1 size: 6  Hard size: 6
- Collecting garbage on new tree - should be no garbage.
- tree 1 size: 6  Hard size: 6
+initial size: 0
+After populating -- traversal and sizes: 
+10 20 30 50 60 70 
+tree 1 size: 6  Hard size: 6
+Collecting garbage on new tree - should be no garbage.
+tree 1 size: 6  Hard size: 6
 
- Min value of tree: 10
- Max value of tree: 70
-
-
- Attempting 1 removal:
- removed 20
- tree 1 size: 5  Hard size: 6
- Collecting Garbage - should clean 1 item.
- tree 1 size: 5  Hard size: 5
- Collecting Garbage again - no change expected.
- tree 1 size: 5  Hard size: 5
- Adding 'hard' 22 - should see new sizes.
- 10 22 30 50 60 70
- tree 1 size: 6  Hard size: 6
-
- After soft removal.
- 10 30 50 60 70
- tree 1 size: 5  Hard size: 6
- Repeating soft removal. Should see no change.
- 10 30 50 60 70
- tree 1 size: 5  Hard size: 6
- Soft insertion. Hard size should not change.
- 10 22 30 50 60 70
- tree 1 size: 6  Hard size: 6
+Min value of tree: 10
+Max value of tree: 70
 
 
- Attempting 100 removals:
- removed 70
- removed 60
- removed 50
- removed 30
- removed 22
- removed 10
+Attempting 1 removal: 
+removed 20
+tree 1 size: 5  Hard size: 6
+Collecting Garbage - should clean 1 item. 
+tree 1 size: 5  Hard size: 5
+Collecting Garbage again - no change expected. 
+tree 1 size: 5  Hard size: 5
+Adding 'hard' 22 - should see new sizes. 
+10 22 30 50 60 70 
+tree 1 size: 6  Hard size: 6
 
- Min value of tree: Empty tree, no values for max or min
+After soft removal. 
+10 30 50 60 70 
+tree 1 size: 5  Hard size: 6
+Repeating soft removal. Should see no change. 
+10 30 50 60 70 
+tree 1 size: 5  Hard size: 6
+Soft insertion. Hard size should not change. 
+10 22 30 50 60 70 
+tree 1 size: 6  Hard size: 6
 
- searchTree now:
 
- tree 1 size: 0  Hard size: 0
+Attempting 100 removals: 
+removed 70
+removed 60
+removed 50
+removed 30
+removed 22
+removed 10
 
- searchTree2:
- 10 20 30 50 60 70 100 200 300 500 600 700
- tree 2 size: 12  Hard size: 12
+Min value of tree: Empty tree, no values for max or min
 
- Min value of tree: 10
- Max value of tree: 700
+searchTree now:
 
- Additional Testing:
+tree 1 size: 0  Hard size: 0
 
- Removing some values from searchTree2
+searchTree2:
+10 20 30 50 60 70 100 200 300 500 600 700 
+tree 2 size: 12  Hard size: 12
 
- Min value of tree: 100
- Max value of tree: 700
+Min value of tree: 10
+Max value of tree: 700
 
- Removing more values from searchTree2
+Additional Testing: 
 
- Min value of tree: 300
- Max value of tree: 500
+Removing some values from searchTree2
 
- Copying searchTree2 into searchTree3 before garbage collection
+Min value of tree: 100
+Max value of tree: 700
 
- searchTree3:
- 300 500
- tree 3 size: 2  Hard size: 2
+Removing more values from searchTree2
 
- Collecting garbage and adding some new values to searchTree2
+Min value of tree: 300
+Max value of tree: 500
 
- searchTree2:
- 20 50 150 300 500 900
- tree 2 size: 6  Hard size: 6
+Copying searchTree2 into searchTree3 before garbage collection
 
- Min value of tree: 20
- Max value of tree: 900
- Program ended with exit code: 0
- -------------------------------------------------------------------------------*/
+searchTree3:
+300 500 
+tree 3 size: 2  Hard size: 2
+
+Collecting garbage and adding some new values to searchTree2
+
+searchTree2:
+20 50 150 300 500 900 
+tree 2 size: 6  Hard size: 6
+
+Min value of tree: 20
+Max value of tree: 900
+Program ended with exit code: 0
+-------------------------------------------------------------------------------*/
 
 

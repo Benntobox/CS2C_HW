@@ -196,6 +196,8 @@ FHlazySearchTreeNode<Comparable> *FHlazySearchTree<Comparable>::clone(
    newNode =  new FHlazySearchTreeNode<Comparable>(
                                            root->data,
                                            clone(root->lftChild), clone(root->rtChild));
+   if (root->deleted == true)
+      newNode->deleted = true;
 
    return newNode;
 }
