@@ -42,7 +42,7 @@ int main()
 
    for (k = -1; k < 10; k++)
    {
-      // searchTree.contains(k);  // alt to find() - different error return
+      searchTree.contains(k);  // alt to find() - different error return
       try
       {
          searchTree.find(k);
@@ -54,6 +54,8 @@ int main()
       cout << "splay " << k << " --> root: " << searchTree.showRoot()
       << " height: " << searchTree.showHeight() << endl;
    }
+
+   searchTree.find(4);
 
    return 0;
 }

@@ -60,7 +60,7 @@ bool FHsplayTree<Comparable>::remove(const Comparable &x)
 template <class Comparable>
 bool FHsplayTree<Comparable>::contains(const Comparable &x)
 {
-   if (contains(this->mRoot, x))
+   if (contains(x, this->mRoot))
    {
       return true;
    }
@@ -94,8 +94,30 @@ template <class Comparable>
 bool FHsplayTree<Comparable>::insert( const Comparable & x,
                                      FHs_treeNode<Comparable>* &root)
 {
+   if (root == nullptr)
+   {
+      FHs_treeNode<Comparable>* newNode;
+      newNode = new FHs_treeNode<Comparable>(x, nullptr, nullptr);
+      root = newNode;
+      return true;
+   }
 
+   splay(root, x);
 
+   if (x < root->data)
+   {
+      FHs_treeNode<Comparable>* newNode;
+      newNode = new FHs_treeNode<Comparable>( x, root->lftChild, root);
+      root = newNode;
+      return true;
+   }
+   if (root->data < x)
+   {
+      FHs_treeNode<Comparable>* newNode;
+      newNode = new FHs_treeNode<Comparable>( x, root->rtChild, root);
+      root = newNode;
+      return true;
+   }
    return false;
 }
 
@@ -103,9 +125,25 @@ template <class Comparable>
 bool FHsplayTree<Comparable>::remove( const Comparable & x,
                                      FHs_treeNode<Comparable>* &root)
 {
+   if (root == nullptr) { return false; }
+   FHs_treeNode<Comparable>* newRoot;
 
+   splay(root, x);
 
-   return false;
+   if (x != root->data) { return false; }
+   if (root->lftChild == nullptr)
+   {
+      newRoot = root->rtChild;
+   }
+   else
+   {
+      newRoot = root->lftChild;
+      splay(newRoot, x);
+      newRoot->rtChild = root->rtChild;
+   }
+   delete root;
+   root = newRoot;
+   return true;
 }
 
 template <class Comparable>
@@ -114,36 +152,39 @@ bool FHsplayTree<Comparable>::contains( const Comparable & x,
 {
    if (root == nullptr)
       return false;
-   if (root->data < x)
-      return contains(x, root->rtChild);
-   if (x < root->data)
-      return contains(x, root->lftChild);
-
-   return true;
+   if (find(x, root) != nullptr)
+      return true;
+   return false;
 }
 
 template <class Comparable>
 FHs_treeNode<Comparable>* FHsplayTree<Comparable>::find(const Comparable &x,
                                      FHs_treeNode<Comparable>* root)
 {
-   FHs_treeNode<Comparable>* foundNode = nullptr;
+   if (root == nullptr)
+      return nullptr;
 
-   return foundNode;
+   splay(root, x);
+   if (root->data == x)
+   {
+      return root;
+   }
+   return nullptr;
 }
 
 template <class Comparable>
 void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
                                     const Comparable & x)
 {
-   FHs_treeNode<Comparable>* leftTree = nullptr, rightTree = nullptr,
-                              leftTreeMin = nullptr, rightTreeMin = nullptr;
+   FHs_treeNode<Comparable>* leftTree = nullptr, *rightTree = nullptr,
+                              *leftTreeMin = nullptr, *rightTreeMin = nullptr;
 
    while (root != nullptr)
    {
-      if (x < root)
+      if (x < root->data)
       {
          if (root->lftChild == nullptr) { break; }
-         if (x < root->lftChild)
+         if (x < root->lftChild->data)
          {
             rotateWithLeftChild(root);
             if (root->lftChild == nullptr) { break; }
@@ -155,10 +196,10 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
          root = root->lftChild;
          rightTreeMin->lftChild = nullptr;
       }
-      else if (root < x)
+      else if (root->data < x)
       {
          if (root->rtChild == nullptr) { break; }
-         if (root->rtChild < x)
+         if (root->rtChild->data < x)
          {
             rotateWithRightChild(root);
             if (root->rtChild == nullptr) { break; }
