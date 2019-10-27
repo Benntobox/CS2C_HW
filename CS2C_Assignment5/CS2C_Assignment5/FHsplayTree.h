@@ -135,26 +135,85 @@ template <class Comparable>
 void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
                                     const Comparable & x)
 {
+   FHs_treeNode<Comparable>* leftTree = nullptr, rightTree = nullptr,
+                              leftTreeMin = nullptr, rightTreeMin = nullptr;
 
+   while (root != nullptr)
+   {
+      if (x < root)
+      {
+         if (root->lftChild == nullptr) { break; }
+         if (x < root->lftChild)
+         {
+            rotateWithLeftChild(root);
+            if (root->lftChild == nullptr) { break; }
+         }
+         if (rightTree == nullptr) { rightTree = root; }
+         else { rightTreeMin->lftChild = root; }
 
+         rightTreeMin = root;
+         root = root->lftChild;
+         rightTreeMin->lftChild = nullptr;
+      }
+      else if (root < x)
+      {
+         if (root->rtChild == nullptr) { break; }
+         if (root->rtChild < x)
+         {
+            rotateWithRightChild(root);
+            if (root->rtChild == nullptr) { break; }
+         }
+         if (leftTree == nullptr) { leftTree = root; }
+         else { leftTreeMin->lftChild = root; }
 
+         leftTreeMin = root;
+         root = root->rtChild;
+         leftTreeMin->rtChild = nullptr;
+      }
+      else { break; }
+   }
+
+   if (leftTree != nullptr)
+   {
+      FHs_treeNode<Comparable>* currNode = leftTree;
+      while (currNode->rtChild != nullptr)
+      {
+         currNode = currNode->rtChild;
+      }
+      currNode->rtChild = root->lftChild;
+      root->lftChild = leftTree;
+   }
+   if (rightTree != nullptr)
+   {
+      FHs_treeNode<Comparable>* currNode = rightTree;
+      while (currNode->lftChild != nullptr)
+      {
+         currNode = currNode->lftChild;
+      }
+      currNode->lftChild = root->lftChild;
+      root->rtChild = rightTree;
+   }
 }
 
 template <class Comparable>
 void FHsplayTree<Comparable>::rotateWithLeftChild( FHs_treeNode<Comparable> * & k2 )
 {
-
-
-
+   FHs_treeNode<Comparable>* k1 = k2->lftChild;
+   k2->lftChild = k1->rtChild;
+   k1->lftChild = k2;
+   k2 = k1;
 }
 
 template <class Comparable>
 void FHsplayTree<Comparable>::rotateWithRightChild( FHs_treeNode<Comparable> * & k2 )
 {
-
-
-
+   FHs_treeNode<Comparable>* k1 = k2->rtChild;
+   k2->rtChild = k1->lftChild;
+   k1->rtChild = k2;
+   k2 = k1;
 }
+
+
 
 #endif /* FHsplayTree_h */
 
