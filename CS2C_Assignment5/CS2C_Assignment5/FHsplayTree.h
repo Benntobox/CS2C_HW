@@ -112,9 +112,14 @@ template <class Comparable>
 bool FHsplayTree<Comparable>::contains( const Comparable & x,
                                      FHs_treeNode<Comparable>* root)
 {
+   if (root == nullptr)
+      return false;
+   if (root->data < x)
+      return contains(x, root->rtChild);
+   if (x < root->data)
+      return contains(x, root->lftChild);
 
-
-   return false;
+   return true;
 }
 
 template <class Comparable>
