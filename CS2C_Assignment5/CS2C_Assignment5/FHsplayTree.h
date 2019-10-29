@@ -114,7 +114,7 @@ bool FHsplayTree<Comparable>::insert( const Comparable & x,
    if (root->data < x)
    {
       FHs_treeNode<Comparable>* newNode;
-      newNode = new FHs_treeNode<Comparable>( x, root->rtChild, root);
+      newNode = new FHs_treeNode<Comparable>( x, root, root->rtChild);
       root = newNode;
       return true;
    }
@@ -165,6 +165,8 @@ FHs_treeNode<Comparable>* FHsplayTree<Comparable>::find(const Comparable &x,
       return nullptr;
 
    splay(root, x);
+   std::cout << "Current root is " << root->data << std::endl;
+
    if (root->data == x)
    {
       return root;
@@ -190,7 +192,10 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
             if (root->lftChild == nullptr) { break; }
          }
          if (rightTree == nullptr) { rightTree = root; }
-         else { rightTreeMin->lftChild = root; }
+         else
+         {
+            rightTreeMin->lftChild = root;
+         }
 
          rightTreeMin = root;
          root = root->lftChild;
@@ -231,7 +236,7 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
       {
          currNode = currNode->lftChild;
       }
-      currNode->lftChild = root->lftChild;
+      currNode->lftChild = root->rtChild;
       root->rtChild = rightTree;
    }
 }
@@ -241,7 +246,7 @@ void FHsplayTree<Comparable>::rotateWithLeftChild( FHs_treeNode<Comparable> * & 
 {
    FHs_treeNode<Comparable>* k1 = k2->lftChild;
    k2->lftChild = k1->rtChild;
-   k1->lftChild = k2;
+   k1->rtChild = k2;
    k2 = k1;
 }
 
@@ -250,8 +255,8 @@ void FHsplayTree<Comparable>::rotateWithRightChild( FHs_treeNode<Comparable> * &
 {
    FHs_treeNode<Comparable>* k1 = k2->rtChild;
    k2->rtChild = k1->lftChild;
-   k1->rtChild = k2;
-   k2 = k1;
+   k1->lftChild = k2;
+   k2 = k1; // HEREIN LIES THE PROBLEM
 }
 
 

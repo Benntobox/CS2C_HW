@@ -32,7 +32,7 @@ int main()
    //cout << searchTree.showRoot() << endl;
 
    cout << "Initial size: " << searchTree.size() << endl;
-   for (k = 1; k <= 32; k++)
+   for (k = 1; k <= 12; k++)
       searchTree.insert(k);
    cout << "New size: " << searchTree.size() << endl;
 
@@ -42,7 +42,7 @@ int main()
 
    for (k = -1; k < 10; k++)
    {
-      searchTree.contains(k);  // alt to find() - different error return
+      //searchTree.contains(k);  // alt to find() - different error return
       try
       {
          searchTree.find(k);
@@ -55,7 +55,6 @@ int main()
       << " height: " << searchTree.showHeight() << endl;
    }
 
-   searchTree.find(4);
 
    return 0;
 }
