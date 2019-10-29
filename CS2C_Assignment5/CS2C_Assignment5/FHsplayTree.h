@@ -152,9 +152,16 @@ bool FHsplayTree<Comparable>::contains( const Comparable & x,
 {
    if (root == nullptr)
       return false;
-   if (find(x, root) != nullptr)
-      return true;
-   return false;
+
+   try
+   {
+      find(x);
+   }
+   catch (...)
+   {
+      return false;
+   }
+   return true;
 }
 
 template <class Comparable>
@@ -165,7 +172,6 @@ FHs_treeNode<Comparable>* FHsplayTree<Comparable>::find(const Comparable &x,
       return nullptr;
 
    splay(root, x);
-   std::cout << "Current root is " << root->data << std::endl;
 
    if (root->data == x)
    {
@@ -239,6 +245,7 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
       currNode->lftChild = root->rtChild;
       root->rtChild = rightTree;
    }
+   this->mRoot = root; // Needed because rotates dont properly update root
 }
 
 template <class Comparable>
@@ -256,10 +263,8 @@ void FHsplayTree<Comparable>::rotateWithRightChild( FHs_treeNode<Comparable> * &
    FHs_treeNode<Comparable>* k1 = k2->rtChild;
    k2->rtChild = k1->lftChild;
    k1->lftChild = k2;
-   k2 = k1; // HEREIN LIES THE PROBLEM
+   k2 = k1;
 }
-
-
 
 #endif /* FHsplayTree_h */
 
