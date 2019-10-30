@@ -26,7 +26,7 @@ protected:
    bool insert(const Comparable &x, FHs_treeNode<Comparable>* &root);
    bool remove(const Comparable &x, FHs_treeNode<Comparable>* &root);
    bool contains(const Comparable &x, FHs_treeNode<Comparable>* root);
-   FHs_treeNode<Comparable>* find(const Comparable &x, FHs_treeNode<Comparable>* root);
+   FHs_treeNode<Comparable>* find(const Comparable &x, FHs_treeNode<Comparable>* &root);
 
    void splay(FHs_treeNode<Comparable> * & root, const Comparable & x);
    void rotateWithLeftChild( FHs_treeNode<Comparable> * & k2 );
@@ -49,7 +49,7 @@ bool FHsplayTree<Comparable>::insert( const Comparable &x )
 template <class Comparable>
 bool FHsplayTree<Comparable>::remove(const Comparable &x)
 {
-   if (remove(this->mRoot, x))
+   if (remove(x, this->mRoot))
    {
       this->mSize--;
       return true;
@@ -130,7 +130,7 @@ bool FHsplayTree<Comparable>::remove( const Comparable & x,
 
    splay(root, x);
 
-   if (x != root->data) { return false; }
+   if (x < root->data || root->data < x) { return false; }
    if (root->lftChild == nullptr)
    {
       newRoot = root->rtChild;
@@ -166,14 +166,14 @@ bool FHsplayTree<Comparable>::contains( const Comparable & x,
 
 template <class Comparable>
 FHs_treeNode<Comparable>* FHsplayTree<Comparable>::find(const Comparable &x,
-                                     FHs_treeNode<Comparable>* root)
+                                     FHs_treeNode<Comparable>* &root)
 {
    if (root == nullptr)
       return nullptr;
 
    splay(root, x);
 
-   if (root->data == x)
+   if (!(root->data < x || x < root->data))
    {
       return root;
    }
@@ -185,7 +185,7 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
                                     const Comparable & x)
 {
    FHs_treeNode<Comparable>* leftTree = nullptr, *rightTree = nullptr,
-                              *leftTreeMin = nullptr, *rightTreeMin = nullptr;
+                              *leftTreeMax = nullptr, *rightTreeMin = nullptr;
 
    while (root != nullptr)
    {
@@ -197,7 +197,7 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
             rotateWithLeftChild(root);
             if (root->lftChild == nullptr) { break; }
          }
-         if (rightTree == nullptr) { rightTree = root; }
+         if (rightTree == nullptr) { rightTree = root; rightTreeMin = root; }
          else
          {
             rightTreeMin->lftChild = root;
@@ -205,7 +205,6 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
 
          rightTreeMin = root;
          root = root->lftChild;
-         rightTreeMin->lftChild = nullptr;
       }
       else if (root->data < x)
       {
@@ -215,37 +214,26 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
             rotateWithRightChild(root);
             if (root->rtChild == nullptr) { break; }
          }
-         if (leftTree == nullptr) { leftTree = root; }
-         else { leftTreeMin->lftChild = root; }
+         if (leftTree == nullptr) { leftTree = root; leftTreeMax = root; }
+         else { leftTreeMax->rtChild = root; }
 
-         leftTreeMin = root;
+         leftTreeMax = root;
          root = root->rtChild;
-         leftTreeMin->rtChild = nullptr;
       }
       else { break; }
    }
 
    if (leftTree != nullptr)
    {
-      FHs_treeNode<Comparable>* currNode = leftTree;
-      while (currNode->rtChild != nullptr)
-      {
-         currNode = currNode->rtChild;
-      }
-      currNode->rtChild = root->lftChild;
+      leftTreeMax->rtChild = root->lftChild;
       root->lftChild = leftTree;
    }
    if (rightTree != nullptr)
    {
-      FHs_treeNode<Comparable>* currNode = rightTree;
-      while (currNode->lftChild != nullptr)
-      {
-         currNode = currNode->lftChild;
-      }
-      currNode->lftChild = root->rtChild;
+      rightTreeMin->lftChild = root->rtChild;
       root->rtChild = rightTree;
    }
-   this->mRoot = root; // Needed because rotates dont properly update root
+   //this->mRoot = root; // Needed because rotates dont properly update root
 }
 
 template <class Comparable>
