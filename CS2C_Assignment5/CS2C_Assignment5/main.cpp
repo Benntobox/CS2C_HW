@@ -5,10 +5,8 @@
 //  Created by Benjamin Boyle on 10/26/19.
 //  Copyright © 2019 Benjamin Boyle. All rights reserved.
 //
-
-#include <iostream>
 #include "FHsplayTree.h"
-
+#include <iostream>
 using namespace std;
 
 template <typename Object>
@@ -23,13 +21,12 @@ public:
 
 int main()
 {
-   int k;
+   int k, k2;
    FHsplayTree<int> searchTree;
-   //FHsearch_tree<int> searchTree;
    PrintObject<int> intPrinter;
 
    searchTree.traverse(intPrinter);
-   //cout << searchTree.showRoot() << endl;
+   cout << "Starting root: " << searchTree.showRoot() << endl;
 
    cout << "Initial size: " << searchTree.size() << endl;
    for (k = 1; k <= 32; k++)
@@ -40,28 +37,36 @@ int main()
    searchTree.traverse(intPrinter);
    cout << endl << endl;
 
-   for (k = -1; k < 10; k++)
+   for (k = -1; k < 13; k++)
    {
-      searchTree.contains(k);
+      // test contains()
+      k2 = 10 - k;
+      if ( !searchTree.contains( k2 ) )
+         cout << " oops on contains " << k2 << endl;
+      cout << "contains " << k2 << " --> root: " << searchTree.showRoot()
+      << " height: " << searchTree.showHeight() << endl;
+
+      // test find()
       try
       {
          searchTree.find(k);
       }
       catch( ... )
       {
-         cout << " oops ";
+         cout << " oops on find " << k << endl;
       }
-      cout << "splay " << k << " --> root: " << searchTree.showRoot()
+      cout << "find " << k << " --> root: " << searchTree.showRoot()
       << " height: " << searchTree.showHeight() << endl;
    }
 
-   cout << "Splaying at 25 = " << searchTree.find(25) << ", Root is: " <<
-   searchTree.showRoot() << endl;
-
+   // Testing remove
+   cout << endl << "Removing several nodes" << endl;
    searchTree.remove(1);
-   searchTree.traverse(intPrinter);
+   searchTree.remove(2);
+   searchTree.remove(3);
+   searchTree.remove(5);
    searchTree.remove(6);
-   searchTree.traverse(intPrinter);
+   searchTree.remove(7);
    searchTree.remove(11);
    searchTree.remove(16);
    searchTree.remove(17);
@@ -70,9 +75,12 @@ int main()
    searchTree.remove(24);
    searchTree.remove(25);
 
-   for (k = -1; k < 10; k++)
+   cout << "\nTraversal: \n";
+   searchTree.traverse(intPrinter);
+   cout << endl << endl;
+
+   for (k = -1; k < 33; k++)
    {
-      searchTree.contains(k);
       try
       {
          searchTree.find(k);
@@ -84,7 +92,6 @@ int main()
       cout << "splay " << k << " --> root: " << searchTree.showRoot()
       << " height: " << searchTree.showHeight() << endl;
    }
-
-
+   
    return 0;
 }

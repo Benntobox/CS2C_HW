@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "FHsearch_tree.h"
 
+// ---------------------------- Prototype of FHsplayTree ----------------------------
 template <class Comparable>
 class FHsplayTree : public FHsearch_tree<Comparable>
 {
@@ -25,7 +26,7 @@ public:
 protected:
    bool insert(const Comparable &x, FHs_treeNode<Comparable>* &root);
    bool remove(const Comparable &x, FHs_treeNode<Comparable>* &root);
-   bool contains(const Comparable &x, FHs_treeNode<Comparable>* root);
+   bool contains(const Comparable &x, FHs_treeNode<Comparable>* &root);
    FHs_treeNode<Comparable>* find(const Comparable &x, FHs_treeNode<Comparable>* &root);
 
    void splay(FHs_treeNode<Comparable> * & root, const Comparable & x);
@@ -148,7 +149,7 @@ bool FHsplayTree<Comparable>::remove( const Comparable & x,
 
 template <class Comparable>
 bool FHsplayTree<Comparable>::contains( const Comparable & x,
-                                     FHs_treeNode<Comparable>* root)
+                                     FHs_treeNode<Comparable>* &root)
 {
    if (root == nullptr)
       return false;
@@ -233,7 +234,6 @@ void FHsplayTree<Comparable>::splay(FHs_treeNode<Comparable> * & root,
       rightTreeMin->lftChild = root->rtChild;
       root->rtChild = rightTree;
    }
-   //this->mRoot = root; // Needed because rotates dont properly update root
 }
 
 template <class Comparable>
