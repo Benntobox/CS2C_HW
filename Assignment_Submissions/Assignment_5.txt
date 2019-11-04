@@ -4,27 +4,6 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-   return 0;
-
-   1 2 3 4 5 6
-   6 5 4  2 1
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 // ---------------------------- Prototype of FHsplayTree ----------------------------
 template <class Comparable>
 class FHsplayTree : public FHsearch_tree<Comparable>
@@ -440,5 +419,4 @@ int main()
  splay 32 --> root: 32 height: 18
  Program ended with exit code: 0
  -------------------------------------------------------------------------------*/
-
 
