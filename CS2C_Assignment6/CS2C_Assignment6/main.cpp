@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include "EBookEntry.h"
-#include "FHhashQPwFind.h"
 #include <cstdlib>
 #include <array>
 
@@ -23,12 +22,9 @@ int Hash(const EBookEntry & key);
 int Hash(const string & key);
 int Hash( int key );
 
-void display( const EBookEntry & item )
-{
-   cout << "'" << item.getTitle() << "', by ";
-   cout << item.getCreator() << ", in " << item.getSubject();
-   cout << ", #" << item.getETextNum() << endl;
-}
+void display(const EBookEntry & book);
+
+#include "FHhashQPwFind.h"
 
 int main()
 {
@@ -82,9 +78,7 @@ int main()
          book = hashTable.find( bookInput[ randomIndices[k] ].getETextNum() );
          // book = hashTable.find( bookInput[ randomIndices[k] ].getCreator() );
 
-         cout << book.getTitle() << book.getCreator() << book.getSubject() << endl;
-         //cout << (hashTable.contains( bookInput [randomIndices[k] ])? "YES\n": "NO\n");
-
+         display(book);
       }
       catch (...)
       {
@@ -96,7 +90,7 @@ int main()
    // test known failures exceptions:
    try
    {
-      //book = hashTable.find( -3 );
+      book = hashTable.find( -3 );
       // book = hashTable.find( "Jack Kerouac" );
 
       //...
@@ -111,20 +105,20 @@ int main()
 
    try
    {
-
+      book = hashTable.find(10000000);
    }
    catch (...)
    {
-
+      cout << "Faioure.";
    }
 
    try
    {
-
+      book = hashTable.find(hashTable.size()+3);
    }
    catch (...)
    {
-
+      cout << "ALAS!";
    }
 }
 
@@ -148,6 +142,7 @@ int Hash( const EBookEntry & item )
    return Hash(getKey(item));
 }
 
+/*
 int Hash( const string & key )
 {
    unsigned int k, retVal = 0;
@@ -155,9 +150,15 @@ int Hash( const string & key )
       retVal = 37 * retVal + key[k];
    return retVal;
 }
+*/
 
 int Hash( int key )
 {
    return key;
 }
 
+void display(const EBookEntry & book)
+{
+   cout << "'" << book.getTitle() << "', by " << book.getCreator() << " in ";
+   cout << book.getSubject() << ", #:" << book.getETextNum() << endl;
+}
