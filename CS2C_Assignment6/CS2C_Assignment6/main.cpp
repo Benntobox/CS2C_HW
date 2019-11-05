@@ -25,7 +25,6 @@ int main()
 
    //...
 
-
    FHhashQPwFind<EBookEntry, int> hashTable; // for ID equality
    // FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
 
@@ -108,7 +107,7 @@ int main()
  // used for author equality
  string getKey( const EBookEntry & item )
  {
- return item.getCreator() ;
+   return item.getCreator() ;
  }
  */
 
