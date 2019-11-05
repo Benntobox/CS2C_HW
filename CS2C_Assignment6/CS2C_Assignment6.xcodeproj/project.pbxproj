@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26D41DD7236FF0B60087F45A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D41DD6236FF0B60087F45A /* main.cpp */; };
+		26D41DE32370F3DD0087F45A /* EBookEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26D41DE22370F3DD0087F45A /* EBookEntry.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,8 +26,10 @@
 /* Begin PBXFileReference section */
 		26D41DD3236FF0B60087F45A /* CS2C_Assignment6 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS2C_Assignment6; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D41DD6236FF0B60087F45A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		26D41DDE236FF1350087F45A /* FHhashQPwFind.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FHhashQPwFind.hpp; sourceTree = "<group>"; };
+		26D41DDE236FF1350087F45A /* FHhashQPwFind.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHhashQPwFind.h; sourceTree = "<group>"; };
 		26D41DE0236FF1660087F45A /* FHhashQP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHhashQP.h; path = ../../CS_2C_Files/FHhashQP.h; sourceTree = "<group>"; };
+		26D41DE22370F3DD0087F45A /* EBookEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EBookEntry.cpp; path = ../../CS_2C_Files/EBookEntry.cpp; sourceTree = "<group>"; };
+		26D41DE42370F4DB0087F45A /* EBookEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBookEntry.h; path = ../../CS_2C_Files/EBookEntry.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,9 +62,11 @@
 		26D41DD5236FF0B60087F45A /* CS2C_Assignment6 */ = {
 			isa = PBXGroup;
 			children = (
+				26D41DE22370F3DD0087F45A /* EBookEntry.cpp */,
+				26D41DE42370F4DB0087F45A /* EBookEntry.h */,
 				26D41DE0236FF1660087F45A /* FHhashQP.h */,
 				26D41DD6236FF0B60087F45A /* main.cpp */,
-				26D41DDE236FF1350087F45A /* FHhashQPwFind.hpp */,
+				26D41DDE236FF1350087F45A /* FHhashQPwFind.h */,
 			);
 			path = CS2C_Assignment6;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26D41DD7236FF0B60087F45A /* main.cpp in Sources */,
+				26D41DE32370F3DD0087F45A /* EBookEntry.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

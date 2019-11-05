@@ -7,11 +7,14 @@
 //
 
 #include <iostream>
+#include "EBookEntry.h"
+#include "FHhashQPwFind.h"
+
 using namespace std;
 
 // ----------- prototypes -------------
 
-...
+
 
 int getKey( const EBookEntry & item);
 // string getKey( const EBookEntry & item);
@@ -27,7 +30,7 @@ int main()
    // FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
 
 
-   //...
+   EBookEntry bookInput = EBookEntry();
 
 
    // we want two books to be identical in different ways:  ID or author
