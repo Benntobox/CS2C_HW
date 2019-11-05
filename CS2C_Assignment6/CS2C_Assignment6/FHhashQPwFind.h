@@ -16,12 +16,12 @@ template <class Object, typename KeyType>
 class FHhashQPwFind: public FHhashQP<Object>
 {
 protected:
-   int Hash( const EBookEntry & item ) { return getKey(item); }
-
-   const Object find(const KeyType & key);
    int findPosKey( const KeyType & key ) const;
    int myHashKey(const KeyType & key) const;
 public:
+   
+   typename FHhashQP<EBookEntry>::HashEntry searchResult;
+   const Object find(const KeyType & key);
    class NotFoundException {};
 };
 
@@ -44,7 +44,7 @@ int FHhashQPwFind<Object, KeyType>::findPosKey( const KeyType & key ) const
    int index = myHashKey(key);
 
    while ( this->mArray[index].state != FHhashQP<Object>::EMPTY
-          && this->mArray[index].data != key )
+          && Hash(this->mArray[index].data) != key )
    {
       index += kthOddNum;  // k squared = (k-1) squared + kth odd #
       kthOddNum += 2;   // compute next odd #
@@ -58,9 +58,9 @@ int FHhashQPwFind<Object, KeyType>::findPosKey( const KeyType & key ) const
 template <class Object, typename KeyType>
 const Object FHhashQPwFind<Object, KeyType>::find(const KeyType & key)
 {
-   int index = findPosKey(key);
-   if ( this->mArray[index].state == FHhashQP<Object>::ACTIVE )
-      return this->mArray[index];
+   searchResult = this->mArray[findPosKey(key)];
+   if ( searchResult.state == FHhashQP<Object>::ACTIVE )
+      return searchResult.data;
    throw FHhashQPwFind::NotFoundException();
 }
 

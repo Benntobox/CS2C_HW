@@ -30,6 +30,7 @@
 		26D41DE0236FF1660087F45A /* FHhashQP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHhashQP.h; path = ../../CS_2C_Files/FHhashQP.h; sourceTree = "<group>"; };
 		26D41DE22370F3DD0087F45A /* EBookEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EBookEntry.cpp; path = ../../CS_2C_Files/EBookEntry.cpp; sourceTree = "<group>"; };
 		26D41DE42370F4DB0087F45A /* EBookEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBookEntry.h; path = ../../CS_2C_Files/EBookEntry.h; sourceTree = "<group>"; };
+		26D41DE523712AA40087F45A /* catalog-short4.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "catalog-short4.txt"; path = "../../CS_2C_Client_Support 2/EBookEntry Folder/catalog-short4.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 		26D41DD5236FF0B60087F45A /* CS2C_Assignment6 */ = {
 			isa = PBXGroup;
 			children = (
+				26D41DE523712AA40087F45A /* catalog-short4.txt */,
 				26D41DE22370F3DD0087F45A /* EBookEntry.cpp */,
 				26D41DE42370F4DB0087F45A /* EBookEntry.h */,
 				26D41DE0236FF1660087F45A /* FHhashQP.h */,
