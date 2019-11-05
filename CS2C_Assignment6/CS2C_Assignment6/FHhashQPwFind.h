@@ -44,7 +44,7 @@ int FHhashQPwFind<Object, KeyType>::findPosKey( const KeyType & key ) const
    int index = myHashKey(key);
 
    while ( this->mArray[index].state != FHhashQP<Object>::EMPTY
-          && Hash(this->mArray[index].data) != key )
+          && getKey(this->mArray[index].data) != key )
    {
       index += kthOddNum;  // k squared = (k-1) squared + kth odd #
       kthOddNum += 2;   // compute next odd #

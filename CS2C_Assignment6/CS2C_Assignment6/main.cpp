@@ -16,7 +16,7 @@ using namespace std;
 // ----------- prototypes -------------
 
 int getKey( const EBookEntry & item);
-// string getKey( const EBookEntry & item);
+//string getKey( const EBookEntry & item);
 
 int Hash(const EBookEntry & key);
 int Hash(const string & key);
@@ -28,55 +28,62 @@ void display(const EBookEntry & book);
 
 int main()
 {
-
-   //...
-
-   FHhashQPwFind<EBookEntry, int> hashTable; // for ID equality
-   // FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
    EBookEntry book;
    int k;
+   int NUM_RANDOM_INDICES = 25;
+   int randomIndices[NUM_RANDOM_INDICES];
+
+   FHhashQPwFind<EBookEntry, int> hashTable; // for ID equality
+   //FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
 
    EBookEntryReader bookInput = EBookEntryReader("catalog-short4.txt");
 
-
    // we want two books to be identical in different ways:  ID or author
    EBookEntry::setSortType(EBookEntry::SORT_BY_ID);
-   // EBookEntry::setSortType(EBookEntry::SORT_BY_CREATOR);
+   //EBookEntry::setSortType(EBookEntry::SORT_BY_CREATOR);
 
    cout << bookInput.getFileName() << endl;
    cout << bookInput.getNumBooks() << endl;
-
-
-   //...
 
    // create a QP hash table of EBooks ...
    // generate some random indices into the EBookEntryReader vector ...
    // insert all books into the hash table (if SORT_BY_ID) or fewer (If SORT_BY_CREATOR) ...
    // display NUM_RANDOM_INDICES books from array ...
 
-   //...
-
-   int NUM_RANDOM_INDICES = 25;
-   int randomIndices[NUM_RANDOM_INDICES];
+   for (k = 0; k < bookInput.getNumBooks(); k++)
+   {
+      hashTable.insert(bookInput[k]);
+   }
 
    for (k = 0; k < NUM_RANDOM_INDICES; k++)
    {
       randomIndices[k] = rand() % bookInput.getNumBooks();
+      cout << randomIndices[k] << " ";
    }
+   cout << endl;
 
+   cout << "\nDisplaying random books from bookInput vector:\n" << endl;
    for (k = 0; k < NUM_RANDOM_INDICES; k++)
    {
-      hashTable.insert( bookInput[ randomIndices[k] ] );
+      cout << bookInput[ randomIndices[k] ].getTitle();
+      cout << endl;
+   }
+
+   cout << "\nDisplaying same books from hashTable:\n" << endl;
+   for (k = 0; k < NUM_RANDOM_INDICES; k++)
+   {
+      cout << hashTable.find( getKey( bookInput[ randomIndices[k] ] ) ).getTitle();
+      cout << endl;
    }
 
    // attempt to find on the selected key
-   cout << "The same random books from the hash table " << endl;
+   cout << "\nThe same random books from the hash table " << endl;
    for (int k = 0; k < NUM_RANDOM_INDICES; k++)
    {
       try
       {
          book = hashTable.find( bookInput[ randomIndices[k] ].getETextNum() );
-         // book = hashTable.find( bookInput[ randomIndices[k] ].getCreator() );
+         //book = hashTable.find( bookInput[ randomIndices[k] ].getCreator() );
 
          display(book);
       }
@@ -91,9 +98,9 @@ int main()
    try
    {
       book = hashTable.find( -3 );
-      // book = hashTable.find( "Jack Kerouac" );
+      //book = hashTable.find( "Jack Kerouac" );
 
-      //...
+      display(book);
 
    }
    catch (...)
@@ -106,6 +113,10 @@ int main()
    try
    {
       book = hashTable.find(10000000);
+      //book = hashTable.find("XXXXXXXXX");
+
+      display(book);
+
    }
    catch (...)
    {
@@ -115,6 +126,9 @@ int main()
    try
    {
       book = hashTable.find(hashTable.size()+3);
+      //book = hashTable.find("Surge McQueen");
+
+      display(book);
    }
    catch (...)
    {
@@ -129,7 +143,7 @@ int main()
  {
  return item.getCreator() ;
  }
- */
+*/
 
 // used for ID equality
 int getKey( const EBookEntry & item)
@@ -142,7 +156,6 @@ int Hash( const EBookEntry & item )
    return Hash(getKey(item));
 }
 
-/*
 int Hash( const string & key )
 {
    unsigned int k, retVal = 0;
@@ -150,7 +163,6 @@ int Hash( const string & key )
       retVal = 37 * retVal + key[k];
    return retVal;
 }
-*/
 
 int Hash( int key )
 {
