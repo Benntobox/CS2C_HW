@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26134890233C802100259327 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2613488F233C802100259327 /* main.cpp */; };
+		26A657B92372377100EA540E /* EBookEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26A657B82372377100EA540E /* EBookEntry.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,9 @@
 		261348A4233C886700259327 /* FHvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHvector.h; sourceTree = "<group>"; };
 		261348A5233C886700259327 /* FHlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHlist.h; sourceTree = "<group>"; };
 		261348A8233C886700259327 /* FHkruskal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHkruskal.h; sourceTree = "<group>"; };
+		26A657B72372376C00EA540E /* EBookEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBookEntry.h; sourceTree = "<group>"; };
+		26A657B82372377100EA540E /* EBookEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EBookEntry.cpp; sourceTree = "<group>"; };
+		26A657BA2372378900EA540E /* catalog-short4.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "catalog-short4.txt"; path = "../../CS_2C_Client_Support 2/EBookEntry Folder/catalog-short4.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,9 @@
 		2613488E233C802100259327 /* HWTesting */ = {
 			isa = PBXGroup;
 			children = (
+				26A657BA2372378900EA540E /* catalog-short4.txt */,
+				26A657B82372377100EA540E /* EBookEntry.cpp */,
+				26A657B72372376C00EA540E /* EBookEntry.h */,
 				2613488F233C802100259327 /* main.cpp */,
 				2613489B233C886600259327 /* FHavlTree.h */,
 				261348A3233C886700259327 /* FHbinHeap.h */,
@@ -148,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26134890233C802100259327 /* main.cpp in Sources */,
+				26A657B92372377100EA540E /* EBookEntry.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

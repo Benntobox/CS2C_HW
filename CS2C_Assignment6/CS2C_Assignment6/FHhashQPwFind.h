@@ -12,6 +12,8 @@
 #include "FHhashQP.h"
 #include <stdio.h>
 
+// ---------------------- FHhashQPwFind Prototype ----------------------
+
 template <class Object, typename KeyType>
 class FHhashQPwFind: public FHhashQP<Object>
 {
@@ -19,11 +21,13 @@ protected:
    int findPosKey( const KeyType & key ) const;
    int myHashKey(const KeyType & key) const;
 public:
-   
+
    typename FHhashQP<EBookEntry>::HashEntry searchResult;
    const Object find(const KeyType & key);
    class NotFoundException {};
 };
+
+// -------------------- FHhashQPwFind Definitions -----------------------
 
 template <class Object, typename KeyType>
 int FHhashQPwFind<Object, KeyType>::myHashKey(const KeyType & key) const
@@ -63,6 +67,7 @@ const Object FHhashQPwFind<Object, KeyType>::find(const KeyType & key)
       return searchResult.data;
    throw FHhashQPwFind::NotFoundException();
 }
+
 
 
 #endif /* FHhashQPwFind_h */

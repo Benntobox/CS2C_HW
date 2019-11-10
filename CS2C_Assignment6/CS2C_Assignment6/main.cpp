@@ -13,14 +13,48 @@
 
 using namespace std;
 
-// ------------------------------ Prototypes ------------------------------
+// --------------------------- Global Prototypes ---------------------------
 
-int getKey( const EBookEntry & item);
-// string getKey( const EBookEntry & item);
+//int getKey( const EBookEntry & item); // used for ID equality
+string getKey( const EBookEntry & item); // used for title equality
 
 int Hash(const EBookEntry & key);
 int Hash(const string & key);
 int Hash( int key );
+
+// ---------------------------- Global Definitions -------------------------------
+/*
+ // used for ID equality
+ int getKey( const EBookEntry & item)
+ {
+ return item.getETextNum() ;
+ }
+ */
+
+// used for title equality
+string getKey( const EBookEntry & item )
+{
+   return item.getTitle() ;
+}
+
+
+int Hash( const EBookEntry & item )
+{
+   return Hash(getKey(item));
+}
+
+int Hash( const string & key )
+{
+   unsigned int k, retVal = 0;
+   for(k = 0; k < key.length( ); k++ )
+      retVal = 37 * retVal + key[k];
+   return retVal;
+}
+
+int Hash( int key )
+{
+   return key;
+}
 
 // --------------------------------- Main ---------------------------------
 
@@ -33,14 +67,14 @@ int main()
    int NUM_RANDOM_INDICES = 25;
    int randomIndices[NUM_RANDOM_INDICES];
 
-   FHhashQPwFind<EBookEntry, int> hashTable; // for ID equality
-   // FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
+   //FHhashQPwFind<EBookEntry, int> hashTable; // for ID equality
+   FHhashQPwFind<EBookEntry, string> hashTable; // for any string equality
 
    EBookEntryReader bookInput = EBookEntryReader("catalog-short4.txt");
 
    // we want two books to be identical in different ways:  ID or author
-   EBookEntry::setSortType(EBookEntry::SORT_BY_ID);
-   // EBookEntry::setSortType(EBookEntry::SORT_BY_TITLE);
+   //EBookEntry::setSortType(EBookEntry::SORT_BY_ID);
+   EBookEntry::setSortType(EBookEntry::SORT_BY_TITLE);
 
    cout << bookInput.getFileName() << endl;
    cout << bookInput.getNumBooks() << endl;
@@ -70,8 +104,8 @@ int main()
    {
       try
       {
-         book = hashTable.find( bookInput[ randomIndices[k] ].getETextNum() );
-         // book = hashTable.find( getKey( bookInput[ randomIndices[k] ] ));
+         //book = hashTable.find( bookInput[ randomIndices[k] ].getETextNum() );
+         book = hashTable.find( bookInput[ randomIndices[k] ].getTitle() );
 
          cout << "#:" << randomIndices[k] << " " << book.getTitle() << endl;
       }
@@ -85,8 +119,8 @@ int main()
    // test known failures exceptions:
    try
    {
-      book = hashTable.find( -3 );
-      // book = hashTable.find( "Jack Kerouac" );
+      //book = hashTable.find( -3 );
+      book = hashTable.find( "Jack Kerouac" );
 
       cout << book.getTitle() << endl;
 
@@ -100,8 +134,8 @@ int main()
 
    try
    {
-      book = hashTable.find(10000000);
-      // book = hashTable.find("XXXXXXXXX");
+      //book = hashTable.find(10000000);
+      book = hashTable.find("XXXXXXXXX");
 
       cout << book.getTitle() << endl;
 
@@ -113,8 +147,8 @@ int main()
 
    try
    {
-      book = hashTable.find(1);
-      // book = hashTable.find("Surge McQueen");
+      //book = hashTable.find(hashTable.size()+1);
+      book = hashTable.find("Surge McQueen");
 
       cout << book.getTitle() << endl;
    }
@@ -122,37 +156,30 @@ int main()
    {
       cout << "Item not found\n";
    }
-}
 
-// ---------------------------- Global Definitions -------------------------------
-/*
- // used for title equality
- string getKey( const EBookEntry & item )
- {
-    return item.getTitle() ;
- }
-*/
+   // Testing if removed books are no longer found
+   EBookEntry bookToBeRemoved = bookInput[NUM_RANDOM_INDICES-1];
+   cout << "\nBook not yet removed:" << endl;
+   try
+   {
+      book = hashTable.find( getKey(bookToBeRemoved) );
+      cout << book.getTitle() << endl;
+   }
+   catch (...)
+   {
+      cout << "Item not found\n";
+   }
 
-// used for ID equality
-int getKey( const EBookEntry & item)
-{
-   return item.getETextNum() ;
-}
+   cout << "\nRemoving the book and trying again:" << endl;
+   hashTable.remove(bookToBeRemoved);
 
-int Hash( const EBookEntry & item )
-{
-   return Hash(getKey(item));
-}
-
-int Hash( const string & key )
-{
-   unsigned int k, retVal = 0;
-   for(k = 0; k < key.length( ); k++ )
-      retVal = 37 * retVal + key[k];
-   return retVal;
-}
-
-int Hash( int key )
-{
-   return key;
+   try
+   {
+      book = hashTable.find( getKey(bookToBeRemoved) );
+      cout << book.getTitle() << endl;
+   }
+   catch (...)
+   {
+      cout << "Item not found\n";
+   }
 }
