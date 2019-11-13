@@ -52,7 +52,7 @@ void shellSortX( FHvector<Comparable> & a, int gapArray[], int gapArraySize )
 
 int main()
 {
-   #define ARRAY_SIZE 1131250
+#define ARRAY_SIZE 500000
    int k;
 
    FHvector<int> fhVectorOfInts1;
@@ -97,9 +97,31 @@ int main()
    int myGapArraySize = 1;
    int myGapArray[] = { 1 };
 
-   cout << fixed;
+   cout << "Testing values before: ";
+   for (k = 0; k < 10; k++)
+   {
+      cout << fhVectorOfInts1[k] << " ";
+   }
+   cout << endl;
 
    clock_t startTime, stopTime;
+
+   startTime = clock();  // ------------------ start
+
+   shellSortX(fhVectorOfInts4, myGapArray, myGapArraySize);  // time this
+
+   stopTime = clock();  // ---------------------- stop
+   cout << "\nShellsort with myGapArray Elapsed Time: "
+   << (double)(stopTime - startTime) / (double)CLOCKS_PER_SEC
+   << " seconds." << endl << endl;
+
+   cout << "Testing values after: ";
+   for (k = 0; k < 10; k++)
+   {
+      cout << fhVectorOfInts1[k] << " ";
+   }
+   cout << endl;
+
    startTime = clock();  // ------------------ start
 
    shellSort1(fhVectorOfInts1);  // time this
@@ -127,13 +149,6 @@ int main()
    << (double)(stopTime - startTime) / (double)CLOCKS_PER_SEC
    << " seconds." << endl << endl;
 
-   startTime = clock();  // ------------------ start
 
-   shellSortX(fhVectorOfInts4, myGapArray, myGapArraySize);  // time this
-
-   stopTime = clock();  // ---------------------- stop
-   cout << "\nShellsort with myGapArray Elapsed Time: "
-   << (double)(stopTime - startTime) / (double)CLOCKS_PER_SEC
-   << " seconds." << endl << endl;
 
 }
