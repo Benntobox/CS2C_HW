@@ -26,6 +26,7 @@
 		26A657C42377E32D00EA540E /* CS2C_Assignment7 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS2C_Assignment7; sourceTree = BUILT_PRODUCTS_DIR; };
 		26A657C72377E32D00EA540E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		26A657CE2378D55D00EA540E /* FHvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHvector.h; path = ../../CS_2C_Files/FHvector.h; sourceTree = "<group>"; };
+		26A657CF237E154F00EA540E /* FHsort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FHsort.h; path = ../../CS_2C_Files/FHsort.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 		26A657C62377E32D00EA540E /* CS2C_Assignment7 */ = {
 			isa = PBXGroup;
 			children = (
+				26A657CF237E154F00EA540E /* FHsort.h */,
 				26A657CE2378D55D00EA540E /* FHvector.h */,
 				26A657C72377E32D00EA540E /* main.cpp */,
 			);
