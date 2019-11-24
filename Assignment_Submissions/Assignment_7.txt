@@ -1,4 +1,3 @@
-
 // CS2C Assignment #7 Submission - Benny Boyle, 11/14/19
 #include "FHvector.h"
 #include "FHsort.h"

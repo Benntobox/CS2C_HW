@@ -88,7 +88,7 @@ FHvector<Object>::FHvector(int initSize)
 template <class Object>
 FHvector<Object>::FHvector(const FHvector<Object>& rhs)
 {
-   mObjects = NULL;   // needed for following
+   mObjects = nullptr;   // needed for following
    operator=(rhs);
 }
 
@@ -99,7 +99,7 @@ const FHvector<Object>& FHvector<Object>::operator= ( const FHvector& rhs )
 
    if (this == &rhs)
       return *this;
-   if ( mObjects != NULL )
+   if ( mObjects != nullptr )
       delete[] mObjects;
 
    setSize(rhs.mSize);
@@ -193,7 +193,7 @@ Object * FHvector<Object>::erase( iterator first, iterator last )
    iterator iter1, iter2, retVal, endVal;
 
    if (first < begin() || last > end() || first >= last)
-      return NULL;
+      return nullptr;
 
    retVal = first; // prepare a return value (first element after erase block)
    endVal = end(); // for faster looping
