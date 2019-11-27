@@ -14,7 +14,7 @@ using namespace std;
 
 // --------------------------- quickSortX Definiton ---------------------------
 
-// quickSort internal
+// quickSortX internal
 template <typename Comparable>
 void quickSortX(FHvector<Comparable> & a, int left, int right, int recLimit)
 {
@@ -47,7 +47,7 @@ void quickSortX(FHvector<Comparable> & a, int left, int right, int recLimit)
       insertionSort(a, left, right);
 }
 
-// quickSort public driver
+// quickSortX public driver
 template <typename Comparable>
 void quickSortX( FHvector<Comparable> & a , int recLimit)
 {
@@ -320,20 +320,26 @@ int main()
  ---------------------------- ANALYSIS -------------------------------
 
  Based off the above results, it seems like the length of time the sorting
- takes generally gets longer as the recursion limit gets higher. Starting at 2,
- the time taken is at a relatively lower time. As it moves through the 10-20
- range, it decreases slightly, but significantly. Gradually moving through the
+ takes initially gets faster, but then takes longer as the recursion limit is
+ set to a higher value. Starting at 2, the time taken is relatively fast. As
+ the limit moves through the 10-20 range, the time taken decreases by a
+ relatively small amount, but still significant. Gradually moving through the
  20's into the 30's and beyond, the sort time continues to grow at a relatively
  consistent speed. As the limit moves into the hundreds, it starts to increase
  in search time faster. Most array sizes were at their lowest time around the
- 10-16 range, 12 being the most commonly lowest. It is difficult to draw too
- many strong conclusions about the data because as can be seen it has a fair
- amount of fluctuation in the increase and decrease of times, even between two
- similar values. However, it seems safe to conclude that the sort time is
- lowest in a range of 4-30, and is lowest around 12-16, and gradually increases
- in sort time beyond 30, accelerating slowly as it passes into the hundreds.
- From this, then, we can assess the suggested 15 limit as a safe bet for being
- close to the best possible time for the algorithm.
+ 10-16 range, 12 being the most commonly lowest.
+
+ It is difficult to draw too many strong conclusions about the data because as
+ can be seen in the table there is a fair amount of fluctuation in the increase
+ and decrease of times, even between two similar values. However, it seems safe
+ to conclude that the sort time is lowest in a range of 4-30, and is lowest
+ around 12-16, and gradually increases in sort time beyond 30, accelerating
+ slowly as it passes into the hundreds. From this, then, we can assess the
+ suggested 15 limit as a safe bet for being close to the best possible time for
+ the algorithm. Comparing this test to using insertionSort() directly, or
+ rather using quickSortX() with a limit value equal to the array size, results
+ in sort times over 100 times slower, demonstrating the huge time saving the
+ quickSort method results in.
 
  ---------------------------------------------------------------------*/
 
