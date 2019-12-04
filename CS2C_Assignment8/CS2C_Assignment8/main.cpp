@@ -1,10 +1,4 @@
-//
-//  main.cpp
-//  CS2C_Assignment8
-//
-//  Created by Benjamin Boyle on 11/24/19.
-//  Copyright © 2019 Benjamin Boyle. All rights reserved.
-//
+// CS2C Assignment #8 Submission - Benny Boyle, 11/27/19
 
 #include <iostream>
 #include "FHsort.h"
@@ -88,6 +82,7 @@ int main()
       << " seconds.";
    }
    cout << endl << endl;
+
    quickSort(fhVectorOfInts);
 
    for (k = 0; k < ARRAY_SIZE; k+= ARRAY_SIZE/5)
@@ -320,7 +315,7 @@ int main()
  ---------------------------- ANALYSIS -------------------------------
 
  Based off the above results, it seems like the length of time the sorting
- takes initially gets faster, but then takes longer as the recursion limit is
+ takes initially gets faster, but then becomes slower as the recursion limit is
  set to a higher value. Starting at 2, the time taken is relatively fast. As
  the limit moves through the 10-20 range, the time taken decreases by a
  relatively small amount, but still significant. Gradually moving through the
@@ -332,8 +327,8 @@ int main()
  It is difficult to draw too many strong conclusions about the data because as
  can be seen in the table there is a fair amount of fluctuation in the increase
  and decrease of times, even between two similar values. However, it seems safe
- to conclude that the sort time is lowest in a range of 4-30, and is lowest
- around 12-16, and gradually increases in sort time beyond 30, accelerating
+ to conclude that the sort time is lower in a range of 4-30, and is lowest
+ around 12-16. It then gradually increases in sort time beyond 30, accelerating
  slowly as it passes into the hundreds. From this, then, we can assess the
  suggested 15 limit as a safe bet for being close to the best possible time for
  the algorithm. Comparing this test to using insertionSort() directly, or
