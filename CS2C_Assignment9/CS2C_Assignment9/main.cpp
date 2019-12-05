@@ -353,7 +353,7 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
    // initialize the vertex list and place the starting vert in p_p_v queue
    for (vIter = vertPtrSet.begin(); vIter != vertPtrSet.end(); ++vIter)
    {
-      (*vIter)->dist = Vertex::INFINITY_FH;
+      (*vIter)->cost = 0;
       (*vIter)->nextInPath = NULL;
    }
 
