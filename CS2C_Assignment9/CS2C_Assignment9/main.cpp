@@ -346,18 +346,18 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
 {
    typename VertPtrSet::iterator vIter;
    typename EdgePairList::iterator edgePrIter;
-   VertPtr wPtr, sPtr, vPtr;
+   VertPtr wPtr, vPtr;
    CostType costVW;
    queue<VertPtr> partiallyProcessedVerts;
 
    // initialize the vertex list and place the starting vert in p_p_v queue
    for (vIter = vertPtrSet.begin(); vIter != vertPtrSet.end(); ++vIter)
    {
-      (*vIter)->cost = 0;
+      (*vIter)->dist = Vertex::INFINITY_FH;
       (*vIter)->nextInPath = NULL;
    }
 
-   partiallyProcessedVerts.push( sPtr ); // or, FHbinHeap::insert(), e.g.
+   partiallyProcessedVerts.push( startVertPtr ); // or, FHbinHeap::insert(), e.g.
 
    // outer dijkstra loop
    while( !partiallyProcessedVerts.empty() )
@@ -375,7 +375,12 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
 
          if (costVW == 0) { continue; }
 
+         wPtr->nextInPath = vPtr;
 
+         if (wPtr == endVertPtr)
+         {
+            return true;
+         }
       }
    }
    return false;
