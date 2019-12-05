@@ -47,12 +47,12 @@ public:
    FHflowVertex( const Object & x = Object() );
 
    void addToFlowAdjList(VertPtr neighbor, CostType cost);
-   void addToFlowResList(VertPtr neighbor, CostType cost);
+   void addToResAdjList(VertPtr neighbor, CostType cost);
    bool operator<( const FHflowVertex<Object, CostType> & rhs) const;
    const FHflowVertex<Object, CostType> & operator=
    ( const FHflowVertex<Object, CostType> & rhs);
    void showFlowAdjList();
-   void showFlowResList();
+   void showResAdjList();
 };
 
 // static const initializations for Vertex --------------
@@ -90,14 +90,14 @@ template <class Object, typename CostType>
 void FHflowVertex<Object, CostType>::addToFlowAdjList(
                         FHflowVertex<Object, CostType> *neighbor, CostType cost)
 {
-
+   flowAdjList[neighbor] = cost;
 }
 
 template <class Object, typename CostType>
-void FHflowVertex<Object, CostType>::addToFlowResList(
+void FHflowVertex<Object, CostType>::addToResAdjList(
                                                       FHflowVertex<Object, CostType> *neighbor, CostType cost)
 {
-
+   resAdjList[neighbor] = cost;
 }
 
 template <class Object, typename CostType>
@@ -127,6 +127,29 @@ const FHflowVertex<Object, CostType> & FHflowVertex<Object, CostType>::operator=
    return *this;
 }
 
+template <class Object, typename CostType>
+void FHflowVertex<Object, CostType>::showFlowAdjList()
+{
+   typename EdgePairList::iterator iter;
+
+   cout << "Flow Adj List for " << data << ": ";
+   for (iter = flowAdjList.begin(); iter != flowAdjList.end(); ++iter)
+      cout << iter->first->data << "(" << iter->second << ") ";
+   cout << endl;
+}
+
+
+template <class Object, typename CostType>
+void FHflowVertex<Object, CostType>::showResAdjList()
+{
+   typename EdgePairList::iterator iter;
+
+   cout << "Res Adj List for " << data << ": ";
+   for (iter = resAdjList.begin(); iter != resAdjList.end(); ++iter)
+      cout << iter->first->data << "(" << iter->second << ") ";
+   cout << endl;
+}
+
 // ------------------------ FHflowGraph ---------------------------------------
 
 template <class Object, typename CostType>
@@ -151,6 +174,8 @@ public:
    void showResAdjTable();
    VertPtr addToVertexSet(const Object & object);
    void clear();
+   bool setStartVert(const Object &x);
+   bool setEndVert(const Object &x);
 
    // algorithms
    CostType findMaxFlow();
@@ -163,7 +188,7 @@ private:
    bool adjustPathByCost(CostType cost);
    CostType getCostOfResEdge(VertPtr src, VertPtr dst);
    bool addCostToResEdge(VertPtr src, VertPtr dst, CostType cost);
-   bool addCostToFlowEdge(VertPtr src, VertPtr dst, CostType cost) ;
+   bool addCostToFlowEdge(VertPtr src, VertPtr dst, CostType cost);
 };
 
 template <class Object, typename CostType>
@@ -206,7 +231,9 @@ void FHflowGraph<Object, CostType>::addEdge(
    dst = addToVertexSet(dest);
 
    // add dest to source's adjacency list
-   src->addToAdjList(dst, cost);
+   src->addToFlowAdjList(dst, 0);
+   src->addToResAdjList(dst, cost);
+   dst->addToResAdjList(src, 0);
 }
 
 template <class Object, typename CostType>
@@ -231,6 +258,22 @@ void FHflowGraph<Object, CostType>::showResAdjTable()
    cout << endl;
 }
 
+template <class Object, typename CostType>
+bool FHflowGraph<Object, CostType>::setStartVert(const Object &x)
+{
+   if ((startVertPtr = addToVertexSet(x))) { return true; }
+   return false;
+}
+
+template <class Object, typename CostType>
+bool FHflowGraph<Object, CostType>::setEndVert(const Object &x)
+{
+   if ((endVertPtr = addToVertexSet(x))) { return true; }
+   return false;
+}
+
+
+/*
 template <class Object, typename CostType>
 bool FHflowGraph<Object, CostType>::dijkstra(const Object & x)
 {
@@ -279,6 +322,24 @@ bool FHflowGraph<Object, CostType>::dijkstra(const Object & x)
    }
    return true;
 }
+*/
+
+template <class Object, typename CostType>
+CostType FHflowGraph<Object, CostType>::findMaxFlow()
+{
+   CostType cost, totalCost = 0;
+
+   while (true)
+   {
+      if (!establishNextFlowPath()) { break; }
+      cost = getLimitingFlowOnResPath();
+      adjustPathByCost(cost);
+
+      totalCost += cost;
+   }
+
+   return totalCost;
+}
 
 template <class Object, typename CostType>
 bool FHflowGraph<Object, CostType>::establishNextFlowPath()
@@ -296,7 +357,6 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
       (*vIter)->nextInPath = NULL;
    }
 
-   sPtr->dist = 0;
    partiallyProcessedVerts.push( sPtr ); // or, FHbinHeap::insert(), e.g.
 
    // outer dijkstra loop
@@ -306,26 +366,106 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
       partiallyProcessedVerts.pop();
 
       // inner dijkstra loop: for each vert adj to v, lower its dist to s if you can
-      for (edgePrIter = vPtr->adjList.begin();
-           edgePrIter != vPtr->adjList.end();
+      for (edgePrIter = vPtr->resAdjList.begin();
+           edgePrIter != vPtr->resAdjList.end();
            edgePrIter++)
       {
          wPtr = edgePrIter->first;
          costVW = edgePrIter->second;
 
          if (costVW == 0) { continue; }
-         
-         if ( vPtr->dist + costVW < wPtr->dist )
-         {
-            wPtr->dist = vPtr->dist + costVW;
-            wPtr->nextInPath = vPtr;
 
-            // *wPtr now has improved distance, so add wPtr to p_p_v queue
-            partiallyProcessedVerts.push(wPtr);
-         }
+
       }
    }
+   return false;
+}
+
+template <class Object, typename CostType>
+CostType FHflowGraph<Object, CostType>::getLimitingFlowOnResPath()
+{
+   VertPtr vp;
+   CostType flowLimit = Vertex::INFINITY_FH, tempCost;
+
+   for (vp = endVertPtr; vp != startVertPtr; vp = vp->nextInPath)
+   {
+      tempCost = getCostOfResEdge(vp, vp->nextInPath);
+      if (tempCost < flowLimit) { flowLimit = tempCost; }
+   }
+   return flowLimit;
+}
+
+template <class Object, typename CostType>
+bool FHflowGraph<Object, CostType>::adjustPathByCost(CostType cost)
+{
+   VertPtr vp, src, dst;
+
+   if (cost == 0) { return false; }
+
+   for (vp = endVertPtr; vp != startVertPtr; vp = vp->nextInPath)
+   {
+      src = vp;
+      dst = vp->nextInPath;
+      addCostToResEdge(src, dst, cost);
+      addCostToFlowEdge(src, dst, cost);
+   }
+
    return true;
+}
+
+template <class Object, typename CostType>
+CostType FHflowGraph<Object, CostType>::getCostOfResEdge(VertPtr src, VertPtr dst)
+{
+   typename EdgePairList::iterator iter;
+
+   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+   {
+      if (iter->first == dst)
+      {
+         return iter->second;
+      }
+   }
+   return 0;
+}
+
+template <class Object, typename CostType>
+bool FHflowGraph<Object, CostType>::addCostToResEdge(VertPtr src, VertPtr dst, CostType cost)
+{
+   typename EdgePairList::iterator iter;
+
+   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+   {
+      if (iter->first == dst)
+      {
+         iter->second += cost;
+         return true;
+      }
+   }
+   return false;
+}
+
+template <class Object, typename CostType>
+bool FHflowGraph<Object, CostType>::addCostToFlowEdge(VertPtr src, VertPtr dst, CostType cost)
+{
+   typename EdgePairList::iterator iter;
+
+   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+   {
+      if (iter->first == dst)
+      {
+         iter->second += cost;
+         return true;
+      }
+   }
+   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+   {
+      if (iter->first == dst)
+      {
+         iter->second += cost;
+         return true;
+      }
+   }
+   return false;
 }
 
 template <class Object, typename CostType>
@@ -351,7 +491,31 @@ FHflowVertex<Object, CostType>* FHflowGraph<Object, CostType>::getVertexWithThis
 
 int main()
 {
-   cout << "Yep" << endl;
+   int finalFlow;
+
+   // build graph
+   FHflowGraph<string, int> myG;
+
+   myG.addEdge("s","a", 3);    myG.addEdge("s","b", 2);
+   myG.addEdge("a","b", 1);    myG.addEdge("a","c", 3); myG.addEdge("a","d", 4);
+   myG.addEdge("b","d", 2);
+   myG.addEdge("c","t", 2);
+   myG.addEdge("d","t", 3);
+
+   // show the original flow graph
+   myG.showResAdjTable();
+   myG.showFlowAdjTable();
+
+   myG.setStartVert("s");
+   myG.setEndVert("t");
+   finalFlow = myG.findMaxFlow();
+
+   cout << "Final flow: " << finalFlow << endl;
+
+   myG.showResAdjTable();
+   myG.showFlowAdjTable();
+
+   return 0;
 }
 
 
