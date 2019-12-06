@@ -272,58 +272,6 @@ bool FHflowGraph<Object, CostType>::setEndVert(const Object &x)
    return false;
 }
 
-
-/*
-template <class Object, typename CostType>
-bool FHflowGraph<Object, CostType>::dijkstra(const Object & x)
-{
-   typename VertPtrSet::iterator vIter;
-   typename EdgePairList::iterator edgePrIter;
-   VertPtr wPtr, sPtr, vPtr;
-   CostType costVW;
-   queue<VertPtr> partiallyProcessedVerts;
-
-   sPtr = getVertexWithThisData(x);
-   if (sPtr == NULL)
-      return false;
-
-   // initialize the vertex list and place the starting vert in p_p_v queue
-   for (vIter = vertPtrSet.begin(); vIter != vertPtrSet.end(); ++vIter)
-   {
-      (*vIter)->dist = Vertex::INFINITY_FH;
-      (*vIter)->nextInPath = NULL;
-   }
-
-   sPtr->dist = 0;
-   partiallyProcessedVerts.push( sPtr ); // or, FHbinHeap::insert(), e.g.
-
-   // outer dijkstra loop
-   while( !partiallyProcessedVerts.empty() )
-   {
-      vPtr = partiallyProcessedVerts.front();
-      partiallyProcessedVerts.pop();
-
-      // inner dijkstra loop: for each vert adj to v, lower its dist to s if you can
-      for (edgePrIter = vPtr->adjList.begin();
-           edgePrIter != vPtr->adjList.end();
-           edgePrIter++)
-      {
-         wPtr = edgePrIter->first;
-         costVW = edgePrIter->second;
-         if ( vPtr->dist + costVW < wPtr->dist )
-         {
-            wPtr->dist = vPtr->dist + costVW;
-            wPtr->nextInPath = vPtr;
-
-            // *wPtr now has improved distance, so add wPtr to p_p_v queue
-            partiallyProcessedVerts.push(wPtr);
-         }
-      }
-   }
-   return true;
-}
-*/
-
 template <class Object, typename CostType>
 CostType FHflowGraph<Object, CostType>::findMaxFlow()
 {
@@ -337,7 +285,6 @@ CostType FHflowGraph<Object, CostType>::findMaxFlow()
 
       totalCost += cost;
    }
-
    return totalCost;
 }
 
@@ -349,6 +296,7 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
    VertPtr wPtr, vPtr;
    CostType costVW;
    queue<VertPtr> partiallyProcessedVerts;
+   VertPtrSet processedVerts;
 
    // initialize the vertex list and place the starting vert in p_p_v queue
    for (vIter = vertPtrSet.begin(); vIter != vertPtrSet.end(); ++vIter)
@@ -364,6 +312,7 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
    {
       vPtr = partiallyProcessedVerts.front();
       partiallyProcessedVerts.pop();
+      processedVerts.insert(vPtr);
 
       // inner dijkstra loop: for each vert adj to v, lower its dist to s if you can
       for (edgePrIter = vPtr->resAdjList.begin();
@@ -373,15 +322,17 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
          wPtr = edgePrIter->first;
          costVW = edgePrIter->second;
 
-         if (costVW == 0) { continue; }
+         if (costVW == 0 || processedVerts.find(wPtr) != processedVerts.end()) { continue; }
 
          wPtr->nextInPath = vPtr;
+         partiallyProcessedVerts.push(wPtr);
 
          if (wPtr == endVertPtr)
          {
             return true;
          }
       }
+      processedVerts.empty();
    }
    return false;
 }
@@ -390,12 +341,12 @@ template <class Object, typename CostType>
 CostType FHflowGraph<Object, CostType>::getLimitingFlowOnResPath()
 {
    VertPtr vp;
-   CostType flowLimit = Vertex::INFINITY_FH, tempCost;
+   CostType flowLimit = Vertex::INFINITY_FH, edgeCost;
 
    for (vp = endVertPtr; vp != startVertPtr; vp = vp->nextInPath)
    {
-      tempCost = getCostOfResEdge(vp, vp->nextInPath);
-      if (tempCost < flowLimit) { flowLimit = tempCost; }
+      edgeCost = getCostOfResEdge(vp->nextInPath, vp);
+      if (edgeCost < flowLimit) { flowLimit = edgeCost; }
    }
    return flowLimit;
 }
@@ -409,12 +360,13 @@ bool FHflowGraph<Object, CostType>::adjustPathByCost(CostType cost)
 
    for (vp = endVertPtr; vp != startVertPtr; vp = vp->nextInPath)
    {
-      src = vp;
-      dst = vp->nextInPath;
-      addCostToResEdge(src, dst, cost);
+      src = vp->nextInPath;
+      dst = vp;
+      addCostToResEdge(src, dst, cost * -1);
+      addCostToResEdge(dst, src, cost);
+
       addCostToFlowEdge(src, dst, cost);
    }
-
    return true;
 }
 
@@ -438,6 +390,8 @@ bool FHflowGraph<Object, CostType>::addCostToResEdge(VertPtr src, VertPtr dst, C
 {
    typename EdgePairList::iterator iter;
 
+   if (src == nullptr || dst == nullptr) { return false; }
+
    for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
    {
       if (iter->first == dst)
@@ -446,6 +400,7 @@ bool FHflowGraph<Object, CostType>::addCostToResEdge(VertPtr src, VertPtr dst, C
          return true;
       }
    }
+
    return false;
 }
 
@@ -454,7 +409,9 @@ bool FHflowGraph<Object, CostType>::addCostToFlowEdge(VertPtr src, VertPtr dst, 
 {
    typename EdgePairList::iterator iter;
 
-   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+   if (src == nullptr || dst == nullptr) { return false; }
+
+   for (iter = src->flowAdjList.begin(); iter != src->flowAdjList.end(); ++iter)
    {
       if (iter->first == dst)
       {
@@ -462,14 +419,16 @@ bool FHflowGraph<Object, CostType>::addCostToFlowEdge(VertPtr src, VertPtr dst, 
          return true;
       }
    }
-   for (iter = src->resAdjList.begin(); iter != src->resAdjList.end(); ++iter)
+
+   for (iter = dst->flowAdjList.begin(); iter != dst->flowAdjList.end(); ++iter)
    {
-      if (iter->first == dst)
+      if (iter->first == src)
       {
-         iter->second += cost;
+         iter->second -= cost;
          return true;
       }
    }
+
    return false;
 }
 
@@ -501,11 +460,11 @@ int main()
    // build graph
    FHflowGraph<string, int> myG;
 
-   myG.addEdge("s","a", 3);    myG.addEdge("s","b", 2);
-   myG.addEdge("a","b", 1);    myG.addEdge("a","c", 3); myG.addEdge("a","d", 4);
-   myG.addEdge("b","d", 2);
-   myG.addEdge("c","t", 2);
-   myG.addEdge("d","t", 3);
+   myG.addEdge("s","a", 7);   myG.addEdge("s","b", 6);
+   myG.addEdge("a","c", 9);
+   myG.addEdge("b","c", 5);   myG.addEdge("b","d", 4);
+   myG.addEdge("c","d", 3);   myG.addEdge("c","t", 6);
+   myG.addEdge("d","a", 7);   myG.addEdge("d","t", 7);
 
    // show the original flow graph
    myG.showResAdjTable();
