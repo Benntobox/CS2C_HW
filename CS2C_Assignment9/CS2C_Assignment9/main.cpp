@@ -1,15 +1,5 @@
-//
-//  main.cpp
-//  CS2C_Assignment9
-//
-//  Created by Benjamin Boyle on 12/3/19.
-//  Copyright © 2019 Benjamin Boyle. All rights reserved.
-//
+// CS2C Assignment #89Submission - Benny Boyle, 12/6/19
 
-// File FHgraph.h EXPERIMENT
-// Template definitions for FHgraph.
-#ifndef FHFLOWGRAPH_H
-#define FHFLOWGRAPH_H
 #include <limits.h>
 #include <utility>
 #include <vector>
@@ -20,6 +10,8 @@
 #include <iostream>
 #include <functional>
 using namespace std;
+
+// ------------------------ FHflowVertex Prototype ------------------------
 
 // CostType is some numeric type that expresses cost of edges
 // Object is the non-graph data for a vertex
@@ -55,6 +47,8 @@ public:
    void showResAdjList();
 };
 
+// ------------------------ FHflowVertex Methods --------------------------
+
 // static const initializations for Vertex --------------
 template <class Object, typename CostType>
 int FHflowVertex<Object, CostType>::nSortKey
@@ -88,21 +82,21 @@ nextInPath(NULL)
 
 template <class Object, typename CostType>
 void FHflowVertex<Object, CostType>::addToFlowAdjList(
-                        FHflowVertex<Object, CostType> *neighbor, CostType cost)
+                                                      FHflowVertex<Object, CostType> *neighbor, CostType cost)
 {
    flowAdjList[neighbor] = cost;
 }
 
 template <class Object, typename CostType>
 void FHflowVertex<Object, CostType>::addToResAdjList(
-                                                      FHflowVertex<Object, CostType> *neighbor, CostType cost)
+                                                     FHflowVertex<Object, CostType> *neighbor, CostType cost)
 {
    resAdjList[neighbor] = cost;
 }
 
 template <class Object, typename CostType>
 bool FHflowVertex<Object, CostType>::operator<(
-                                           const FHflowVertex<Object, CostType> & rhs) const
+                                               const FHflowVertex<Object, CostType> & rhs) const
 {
    switch (nSortKey)
    {
@@ -117,7 +111,7 @@ bool FHflowVertex<Object, CostType>::operator<(
 
 template <class Object, typename CostType>
 const FHflowVertex<Object, CostType> & FHflowVertex<Object, CostType>::operator=(
-                                                                         const FHflowVertex<Object, CostType> & rhs)
+                                                                                 const FHflowVertex<Object, CostType> & rhs)
 {
    flowAdjList = rhs.flowAdjList;
    resAdjList = rhs.resAdjList;
@@ -150,7 +144,7 @@ void FHflowVertex<Object, CostType>::showResAdjList()
    cout << endl;
 }
 
-// ------------------------ FHflowGraph ---------------------------------------
+// -------------------- FHflowGraph Prototype -------------------------------
 
 template <class Object, typename CostType>
 class FHflowGraph
@@ -190,9 +184,11 @@ private:
    bool addCostToFlowEdge(VertPtr src, VertPtr dst, CostType cost);
 };
 
+// ---------------------- FHflowGraph Methods --------------------------------
+
 template <class Object, typename CostType>
 FHflowVertex<Object, CostType>* FHflowGraph<Object, CostType>::addToVertexSet(
-                                                                      const Object & object)
+                                                                              const Object & object)
 {
    pair<typename VertexSet::iterator, bool> retVal;
    VertPtr vPtr;
@@ -221,7 +217,7 @@ void FHflowGraph<Object, CostType>::clear()
 
 template <class Object, typename CostType>
 void FHflowGraph<Object, CostType>::addEdge(
-                                        const Object &source, const Object &dest, CostType cost )
+                                            const Object &source, const Object &dest, CostType cost )
 {
    VertPtr src, dst;
 
@@ -229,7 +225,7 @@ void FHflowGraph<Object, CostType>::addEdge(
    src = addToVertexSet(source);
    dst = addToVertexSet(dest);
 
-   // add dest to source's adjacency list
+   // add dest to source's adjacency lists
    src->addToFlowAdjList(dst, 0);
    src->addToResAdjList(dst, cost);
    dst->addToResAdjList(src, 0);
@@ -299,7 +295,6 @@ bool FHflowGraph<Object, CostType>::establishNextFlowPath()
    // initialize the vertex list and place the starting vert in p_p_v queue
    for (vIter = vertPtrSet.begin(); vIter != vertPtrSet.end(); ++vIter)
    {
-      (*vIter)->dist = Vertex::INFINITY_FH;
       (*vIter)->nextInPath = NULL;
    }
    partiallyProcessedVerts.push( startVertPtr );
@@ -356,9 +351,9 @@ bool FHflowGraph<Object, CostType>::adjustPathByCost(CostType cost)
    {
       src = vp->nextInPath;
       dst = vp;
+
       addCostToResEdge(src, dst, cost * -1);
       addCostToResEdge(dst, src, cost);
-
       addCostToFlowEdge(src, dst, cost);
    }
    return true;
@@ -427,7 +422,7 @@ bool FHflowGraph<Object, CostType>::addCostToFlowEdge(VertPtr src, VertPtr dst, 
 
 template <class Object, typename CostType>
 FHflowVertex<Object, CostType>* FHflowGraph<Object, CostType>::getVertexWithThisData(
-                                                                             const Object & x)
+                                                                                     const Object & x)
 {
    typename VertexSet::iterator findResult;
    Vertex vert(x);
@@ -442,13 +437,13 @@ FHflowVertex<Object, CostType>* FHflowGraph<Object, CostType>::getVertexWithThis
    return  (VertPtr)&*findResult;     // the address of the vertex in the set of originals
 }
 
-
-#endif
-
+// ------------------------------- Main -------------------------------
 
 int main()
 {
    int finalFlow;
+
+   cout << endl << "Testing first graph:" << endl;
 
    // build graph
    FHflowGraph<string, int> myG;
@@ -472,7 +467,9 @@ int main()
    myG.showResAdjTable();
    myG.showFlowAdjTable();
 
+   cout << endl << "Testing second graph:" << endl;
 
+   // build graph
    FHflowGraph<string, int> secondG;
 
    secondG.addEdge("s", "a", 4);   secondG.addEdge("s", "b", 7);
@@ -487,6 +484,7 @@ int main()
    secondG.addEdge("f", "e", 4);   secondG.addEdge("f", "g", 6);
    secondG.addEdge("g", "t", 10);
 
+   // show the original graph
    secondG.showResAdjTable();
    secondG.showFlowAdjTable();
 
@@ -499,7 +497,153 @@ int main()
    secondG.showResAdjTable();
    secondG.showFlowAdjTable();
 
+   cout << endl << "Testing third graph:" << endl;
+
+   // build graph
+   FHflowGraph<string, int> thirdG;
+
+   thirdG.addEdge("s","a", 7);   thirdG.addEdge("s","b", 5);
+   thirdG.addEdge("a","b", 2);   thirdG.addEdge("a","c", 3);
+   thirdG.addEdge("b","c", 3);   thirdG.addEdge("b","d", 7);
+   thirdG.addEdge("c","t", 8);
+   thirdG.addEdge("d","a", 1);   thirdG.addEdge("d","c", 2);
+   thirdG.addEdge("d","t", 4);
+
+   // show the original flow graph
+   thirdG.showResAdjTable();
+   thirdG.showFlowAdjTable();
+
+   thirdG.setStartVert("s");
+   thirdG.setEndVert("t");
+   finalFlow = thirdG.findMaxFlow();
+
+   cout << "Final flow: " << finalFlow << endl;
+
+   thirdG.showResAdjTable();
+   thirdG.showFlowAdjTable();
+
    return 0;
 }
+
+/*------------------------------- RUNS -----------------------------------
+
+ Testing first graph:
+ ------------------------
+ Res Adj List for s: a(3) b(2)
+ Res Adj List for a: s(0) b(1) c(3) d(4)
+ Res Adj List for b: s(0) a(0) c(1) d(2)
+ Res Adj List for c: a(0) b(0) d(1) t(2)
+ Res Adj List for d: a(0) b(0) c(0) t(3)
+ Res Adj List for t: c(0) d(0)
+
+ ------------------------
+ Flow Adj List for s: a(0) b(0)
+ Flow Adj List for a: b(0) c(0) d(0)
+ Flow Adj List for b: c(0) d(0)
+ Flow Adj List for c: d(0) t(0)
+ Flow Adj List for d: t(0)
+ Flow Adj List for t:
+
+ Final flow: 5
+ ------------------------
+ Res Adj List for s: a(0) b(0)
+ Res Adj List for a: s(3) b(1) c(1) d(3)
+ Res Adj List for b: s(2) a(0) c(0) d(1)
+ Res Adj List for c: a(2) b(1) d(0) t(0)
+ Res Adj List for d: a(1) b(1) c(1) t(0)
+ Res Adj List for t: c(2) d(3)
+
+ ------------------------
+ Flow Adj List for s: a(3) b(2)
+ Flow Adj List for a: b(0) c(2) d(1)
+ Flow Adj List for b: c(1) d(1)
+ Flow Adj List for c: d(1) t(2)
+ Flow Adj List for d: t(3)
+ Flow Adj List for t:
+
+
+ Testing second graph:
+ ------------------------
+ Res Adj List for a: s(0) b(0) e(4) f(6) d(0)
+ Res Adj List for s: a(4) b(7) c(6)
+ Res Adj List for b: a(2) s(0) c(0) f(6) d(1)
+ Res Adj List for c: s(0) b(3) d(3)
+ Res Adj List for e: a(0) f(0) g(8)
+ Res Adj List for f: a(0) b(0) e(4) d(0) g(6)
+ Res Adj List for d: a(3) b(0) c(0) f(3) g(9) t(7)
+ Res Adj List for g: e(0) f(0) d(0) t(10)
+ Res Adj List for t: d(0) g(0)
+
+ ------------------------
+ Flow Adj List for a: e(0) f(0)
+ Flow Adj List for s: a(0) b(0) c(0)
+ Flow Adj List for b: a(0) f(0) d(0)
+ Flow Adj List for c: b(0) d(0)
+ Flow Adj List for e: g(0)
+ Flow Adj List for f: e(0) g(0)
+ Flow Adj List for d: a(0) f(0) g(0) t(0)
+ Flow Adj List for g: t(0)
+ Flow Adj List for t:
+
+ Final flow: 14
+ ------------------------
+ Res Adj List for a: s(4) b(0) e(0) f(6) d(0)
+ Res Adj List for s: a(0) b(0) c(3)
+ Res Adj List for b: a(2) s(7) c(0) f(0) d(0)
+ Res Adj List for c: s(3) b(3) d(0)
+ Res Adj List for e: a(4) f(0) g(4)
+ Res Adj List for f: a(0) b(6) e(4) d(0) g(0)
+ Res Adj List for d: a(3) b(1) c(3) f(3) g(9) t(3)
+ Res Adj List for g: e(4) f(6) d(0) t(0)
+ Res Adj List for t: d(4) g(10)
+
+ ------------------------
+ Flow Adj List for a: e(4) f(0)
+ Flow Adj List for s: a(4) b(7) c(3)
+ Flow Adj List for b: a(0) f(6) d(1)
+ Flow Adj List for c: b(0) d(3)
+ Flow Adj List for e: g(4)
+ Flow Adj List for f: e(0) g(6)
+ Flow Adj List for d: a(0) f(0) g(0) t(4)
+ Flow Adj List for g: t(10)
+ Flow Adj List for t:
+
+
+ Testing third graph:
+ ------------------------
+ Res Adj List for t: c(0) d(0)
+ Res Adj List for s: a(7) b(5)
+ Res Adj List for c: t(8) d(0) a(0) b(0)
+ Res Adj List for d: t(4) c(2) a(1) b(0)
+ Res Adj List for a: s(0) c(3) d(0) b(2)
+ Res Adj List for b: s(0) c(3) d(7) a(0)
+
+ ------------------------
+ Flow Adj List for t:
+ Flow Adj List for s: a(0) b(0)
+ Flow Adj List for c: t(0)
+ Flow Adj List for d: t(0) c(0) a(0)
+ Flow Adj List for a: c(0) b(0)
+ Flow Adj List for b: c(0) d(0)
+
+ Final flow: 10
+ ------------------------
+ Res Adj List for t: c(6) d(4)
+ Res Adj List for s: a(2) b(0)
+ Res Adj List for c: t(2) d(0) a(3) b(3)
+ Res Adj List for d: t(0) c(2) a(1) b(4)
+ Res Adj List for a: s(5) c(0) d(0) b(0)
+ Res Adj List for b: s(5) c(0) d(3) a(2)
+
+ ------------------------
+ Flow Adj List for t:
+ Flow Adj List for s: a(5) b(5)
+ Flow Adj List for c: t(6)
+ Flow Adj List for d: t(4) c(0) a(0)
+ Flow Adj List for a: c(3) b(2)
+ Flow Adj List for b: c(3) d(4)
+
+ Program ended with exit code: 0
+ ------------------------------------------------------------------------ */
 
 
